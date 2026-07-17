@@ -1,16 +1,17 @@
 <h1 align="center">
   <br>
-  🛍️ SellOn
+  🧠 Psychologia
   <br>
 </h1>
 
-<h4 align="center">Marketplace Eksklusif Mahasiswa Kampus — <em>Buy & Sell Within Your Campus</em></h4>
+<h4 align="center">Portal Artikel & Manajemen Informasi Kesehatan Mental — <em>Edukasi & Kelola Informasi Psikologi</em></h4>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
+  <img src="https://img.shields.io/badge/Laravel-12.0-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
   <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
   <img src="https://img.shields.io/badge/TailwindCSS-4.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="TailwindCSS">
   <img src="https://img.shields.io/badge/Vite-7.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
+  <img src="https://img.shields.io/badge/Livewire-4.x-FB70A9?style=for-the-badge&logo=livewire&logoColor=white" alt="Livewire">
   <img src="https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
 </p>
 
@@ -24,526 +25,212 @@
   <a href="#-instalasi--setup">Instalasi</a>
 </p>
 
----
+## ℹ️ Tentang Aplikasi
 
-## 📌 Tentang Aplikasi
+**Psychologia** adalah sebuah aplikasi web portal edukatif berbasis Laravel yang berfokus pada publikasi informasi di bidang psikologi dan kesehatan mental. Aplikasi ini dirancang untuk memfasilitasi pembacaan artikel edukatif oleh masyarakat luas, pengelolaan profil organisasi, serta mempermudah administrator dalam memanajemen anggota dan konten artikel secara terintegrasi melalui panel admin yang intuitif.
 
-**SellOn** adalah platform marketplace berbasis web yang dirancang **secara eksklusif untuk mahasiswa kampus**. Aplikasi ini memungkinkan mahasiswa untuk menjual dan membeli produk, makanan, minuman, serta menawarkan jasa kepada sesama mahasiswa di lingkungan kampus yang sama — layaknya marketplace mini internal kampus.
-
-### 🎯 Tujuan Aplikasi
-
-| Aspek | Deskripsi |
-|-------|-----------|
-| **Tujuan Utama** | Menyediakan platform jual-beli yang aman dan terpercaya di ekosistem kampus |
-| **Target Pengguna** | Mahasiswa aktif yang memiliki NIM (Nomor Induk Mahasiswa) dan email kampus |
-| **Keunggulan** | Transaksi langsung via WhatsApp tanpa proses checkout yang rumit |
-| **Keamanan** | Sistem verifikasi email kampus memastikan hanya mahasiswa terverifikasi yang bisa bertransaksi |
+### Live Website
+Demo aplikasi website dapat langsung diakses melalui link di bawah ini:
+* **URL**: [https://301-pixel-vault.infinityfreeapp.com/](https://301-pixel-vault.infinityfreeapp.com/)
+* **Akun Demo (Admin)**:
+  * **Email**: `director1@gmail.com`
+  * **Password**: `password`
 
 ---
 
-## ✨ Fitur Utama
+## 🌟 Fitur Utama
 
-### 🔐 Autentikasi & Keamanan
-- **Registrasi dengan NIM** — Setiap pengguna mendaftar menggunakan Nomor Induk Mahasiswa (15 digit), memastikan hanya mahasiswa resmi yang dapat bergabung.
-- **Verifikasi Email Kampus** — Setelah registrasi, sistem mengirim email verifikasi ke inbox kampus. Akses penuh ke marketplace hanya diberikan setelah email terverifikasi.
-- **Email Notification Kustom** — Notifikasi verifikasi email menggunakan template kustom Bahasa Indonesia via layanan SMTP Brevo.
-- **Session Management** — Sistem logout yang aman dengan invalidasi session dan regenerasi token CSRF.
-
-### 🛒 Manajemen Produk (CRUD Lengkap)
-- **Tambah Produk** — Upload produk dengan nama, deskripsi, harga, kategori, kondisi, stok, dan hingga **6 foto produk**.
-- **Lihat Detail** — Halaman detail produk dengan galeri foto, informasi lengkap, dan tombol kontak WhatsApp penjual.
-- **Edit Produk** — Pemilik produk dapat mengedit data dan mengelola foto (tambah/hapus foto individual).
-- **Hapus Produk** — Menghapus produk beserta seluruh file gambar terkait dari storage.
-- **Perlindungan Kepemilikan** — Hanya pemilik produk yang dapat mengedit atau menghapus produknya (cek `Auth::id() !== $product->user_id`).
-
-### 🔍 Pencarian & Filter Katalog
-- **Pencarian Real-time** — Filter produk berdasarkan nama menggunakan SQL `LIKE`.
-- **Filter Kategori** — Saring produk berdasarkan kategori: **All, Preloved, Food, Beverage, Service**.
-- **Pengurutan Fleksibel** — Urutkan produk: **Terbaru (Newest)**, **Harga: Terendah**, **Harga: Tertinggi**.
-- **Counter Kategori** — Menampilkan jumlah produk per kategori secara dinamis.
-- **Pagination** — Katalog dipaginasi 20 produk per halaman, dashboard 20 produk per halaman.
-
-### ❤️ Sistem Favorit
-- **Toggle Favorit** — Tambah/hapus produk ke daftar favorit dengan satu klik (mendukung AJAX & non-AJAX).
-- **Halaman My Favorites** — Halaman khusus yang menampilkan semua produk yang difavoritkan pengguna.
-
-### 👤 Profil Pengguna
-- **Halaman Profil Publik** — Setiap pengguna memiliki halaman profil yang dapat dilihat publik, menampilkan data diri dan daftar produknya.
-- **Edit Profil** — Pengguna dapat mengubah nama, NIM, jurusan, email, dan nomor WhatsApp.
-- **Re-verifikasi Email** — Jika email diubah, sistem otomatis mereset status verifikasi dan mengirim link verifikasi baru ke email yang baru.
-- **Avatar Otomatis** — Avatar dibuat otomatis oleh layanan DiceBear berdasarkan nama pengguna (tidak perlu upload foto profil).
-
-### 📱 Antarmuka Responsif
-- **Mobile-First Design** — Navigasi hamburger menu untuk tampilan mobile.
-- **Multi-Foto Produk** — Galeri foto interaktif untuk menampilkan hingga 6 foto per produk.
-- **Toast Notifications** — Notifikasi sukses/gagal yang muncul di sudut layar untuk setiap aksi pengguna.
+- **Portal Artikel Publik (Landing Page)**: Pengunjung (guest) dapat mengakses Beranda, Hubungi Kami, Katalog Artikel, dan membaca Detail Artikel tanpa perlu mendaftar/login.
+- **Sistem Autentikasi**: Fitur login aman bagi administrator dengan sistem proteksi rute berbasis middleware.
+- **Dashboard Admin**: Panel kontrol terpusat untuk memantau ringkasan statistik sistem serta mengakses Pusat Bantuan (Help Center).
+- **Manajemen Anggota (CRUD)**: Kontrol penuh bagi administrator untuk mengelola data anggota organisasi (tambah, lihat, sunting profil, hapus).
+- **Manajemen Artikel (CRUD)**: Memungkinkan admin mengelola konten artikel (tambah dengan editor WYSIWYG TinyMCE, atur status draft/published, pin artikel, kategori, tags, serta hapus).
+- **Manajemen Profil & Visi Misi**: Memungkinkan pembaruan data profil admin serta pembaruan data Visi & Misi organisasi secara dinamis.
 
 ---
 
 ## 🏗️ Arsitektur Sistem
 
-SellOn dibangun menggunakan pola **MVC (Model-View-Controller)** dengan framework Laravel 12.
+Psychologia dibangun menggunakan pola arsitektur **MVC (Model-View-Controller)** yang merupakan standar dari framework Laravel.
 
+```mermaid
+graph TD
+    Client[Client / Web Browser] -->|HTTP Request| Router[Router web.php]
+    Router -->|Guest/Auth| Middleware[Route Middleware]
+    Middleware -->|Pass| Controller[Controllers\nAuthController, UserController, AdminController]
+    Controller <-->|Read/Write| Model[Models / Eloquent ORM]
+    Model <-->|Query| Database[(Database MySQL)]
+    Controller -->|Render Data| View[Views / Blade Templates & Livewire]
+    View -->|HTML / CSS / JS| Client
 ```
-sellon/
-├── app/
-│   ├── Http/
-│   │   └── Controllers/
-│   │       ├── ProductController.php    # Logika CRUD produk + katalog
-│   │       ├── UserController.php       # Autentikasi + manajemen profil
-│   │       ├── FavoriteController.php   # Toggle & daftar favorit
-│   │       └── VerificationController.php # Verifikasi email kampus
-│   ├── Models/
-│   │   ├── User.php                     # Model pengguna (mahasiswa)
-│   │   ├── Product.php                  # Model produk
-│   │   ├── ProductImage.php             # Model gambar produk (multi-foto)
-│   │   └── Favorite.php                 # Model favorit (pivot user-product)
-│   ├── Notifications/
-│   │   └── VerifyEmailNotification.php  # Template email verifikasi kustom
-│   └── Providers/
-├── database/
-│   ├── migrations/                      # Skema database
-│   └── seeders/
-├── resources/
-│   ├── css/                             # Stylesheet Tailwind CSS
-│   ├── js/                              # JavaScript interaktivitas
-│   └── views/
-│       ├── auth/                        # Halaman login, register, verifikasi
-│       ├── layouts/                     # Layout dasar aplikasi
-│       ├── partials/                    # Komponen reusable (navbar, footer, card)
-│       ├── products/                    # View CRUD produk & katalog
-│       └── users/                       # View profil & dashboard pengguna
-└── routes/
-    └── web.php                          # Definisi semua rute aplikasi
+
+### Sistem Middleware & Proteksi Rute
+Aplikasi ini secara ketat memisahkan hak akses menggunakan sistem proteksi rute (Route Protection) dengan Middleware bawaan Laravel:
+- **`guest` Middleware**: Diterapkan pada rute autentikasi (`/`, `/login`). Memastikan bahwa hanya pengguna yang belum login yang dapat melihat form login.
+- **`auth` Middleware**: Diterapkan pada seluruh rute manajerial (grup rute `/admin/*` dan `/logout`). Memastikan bahwa halaman Dashboard Admin, Manajemen Anggota, dan Manajemen Artikel hanya dapat diakses oleh administrator yang sah. Akses ilegal akan otomatis dialihkan kembali ke form login.
+- **Public Routes**: Rute landing page (grup `/landing/*`) dibiarkan terbuka (tanpa middleware pembatasan) agar edukasi psikologi dapat dijangkau oleh khalayak umum.
+
+---
+
+## 📊 Struktur Database
+
+Aplikasi menggunakan database relasional dengan tabel-tabel utama sebagai berikut:
+
+```mermaid
+erDiagram
+    POSITIONS ||--o{ USERS : "assigned to"
+    POSITIONS ||--o{ MEMBERS : "assigned to"
+    USERS ||--o{ ARTICLES : "writes"
+    ARTICLE_CATEGORIES ||--o{ ARTICLES : "categorizes"
+
+    USERS {
+        bigint id PK
+        foreignId position_id FK
+        string full_name
+        string email UK
+        string password
+        string profile_photo
+        string imagekit_file_id
+    }
+    MEMBERS {
+        bigint id PK
+        foreignId position_id FK
+        string full_name
+        string email UK
+        date join_date
+        string profile_photo
+        string imagekit_file_id
+    }
+    POSITIONS {
+        bigint id PK
+        string position UK
+    }
+    ARTICLES {
+        bigint id PK
+        foreignId author_id FK
+        foreignId category_id FK
+        string title
+        longText content
+        json tags
+        string status
+        boolean is_pinned
+        string thumbnail_photo
+        string imagekit_file_id
+    }
+    ARTICLE_CATEGORIES {
+        bigint id PK
+        string category UK
+    }
+    VISION_MISSIONS {
+        bigint id PK
+        enum type
+        text content
+    }
+    FAQS {
+        bigint id PK
+        enum type
+        text question
+        text answer
+    }
+```
+
+### Deskripsi Tabel
+1. **`users`**: Menyimpan data administrator yang mengelola sistem.
+2. **`members`**: Menyimpan data anggota organisasi/psikolog yang ditampilkan di profil/organisasi.
+3. **`positions`**: Master data untuk jabatan anggota/admin (misal: "Director", "Developer", "Psychologist").
+4. **`articles`**: Menyimpan data artikel psikologi dan kesehatan mental.
+5. **`article_categories`**: Menyimpan kategori artikel (misal: "Mental Health", "Relationship").
+6. **`vision_missions`**: Menyimpan data Visi & Misi organisasi.
+7. **`faqs`**: Pusat data FAQ untuk memandu pengunjung dan admin.
+
+---
+
+## 🔄 Alur Sistem & Algoritma
+
+### 1. Alur Publikasi Artikel
+Proses di mana administrator membuat, mengunggah media, dan mempublikasikan artikel kesehatan mental ke portal publik.
+
+```mermaid
+flowchart TD
+    A[Admin: Buat Artikel Baru] --> B{Pilih Status}
+    B -- Draft --> C[Simpan ke DB dengan status 'draft']
+    B -- Published --> D[Upload Gambar ke ImageKit]
+    D --> E[Simpan ke DB dengan status 'published']
+    C --> F[Artikel Hanya Terlihat di Panel Admin]
+    E --> G[Artikel Muncul di Landing Page & Katalog Publik]
+```
+
+### 2. Alur Autentikasi & Proteksi Middleware
+Menjamin bahwa halaman manajerial terlindungi dan hanya bisa diakses oleh admin setelah proses verifikasi kredensial berhasil.
+
+```mermaid
+flowchart TD
+    A[Akses URL Admin /admin/*] --> B{Apakah Session Aktif?}
+    B -- Ya --> C[Izinkan Akses Halaman Admin]
+    B -- Tidak --> D[Redirect ke Form Login /]
+    D --> E[Input Email & Password]
+    E --> F{Kredensial Valid?}
+    F -- Ya --> G[Buat Session & Redirect ke Dashboard]
+    F -- Tidak --> H[Kembali ke Form Login + Pesan Error]
 ```
 
 ---
 
-## 🗄️ Struktur Database
+## 🛠️ Stack Teknologi
 
-SellOn menggunakan **4 tabel utama** dengan relasi sebagai berikut:
-
-```
-┌─────────────────────────────────────┐
-│              users                  │
-├─────────────────────────────────────┤
-│  id            (PK, Auto Increment) │
-│  name          (string)             │ ← Nama lengkap sesuai KTM
-│  nim           (string 15, UNIQUE)  │ ← NIM 15 digit
-│  major         (string)             │ ← Jurusan
-│  email         (string, UNIQUE)     │ ← Email kampus
-│  whatsapp_no   (string 15)          │ ← No. WhatsApp untuk kontak
-│  role          (string, def: 'user')│
-│  password      (string, hashed)     │
-│  email_verified_at (timestamp)      │ ← NULL = belum terverifikasi
-│  created_at / updated_at            │
-└─────────────────┬───────────────────┘
-                  │ hasMany
-                  ▼
-┌─────────────────────────────────────┐
-│             products                │
-├─────────────────────────────────────┤
-│  id            (PK, Auto Increment) │
-│  name          (string)             │
-│  description   (text)               │
-│  price         (decimal 15,2)       │
-│  stock         (integer, NULLABLE)  │ ← NULL untuk kategori Service
-│  category      (string)             │ ← Preloved|Food|Beverage|Service
-│  condition     (string)             │ ← Kondisi barang
-│  image_url     (string, NULLABLE)   │ ← URL thumbnail utama
-│  user_id       (FK → users.id)      │
-│  created_at / updated_at            │
-└──────┬──────────────┬───────────────┘
-       │ hasMany      │ hasMany
-       ▼              ▼
-┌──────────────┐  ┌───────────────────┐
-│product_images│  │     favorites     │
-├──────────────┤  ├───────────────────┤
-│ id           │  │ id                │
-│ product_id   │  │ user_id (FK)      │
-│ image_url    │  │ product_id (FK)   │
-│ created_at   │  │ created_at        │
-│ updated_at   │  │ updated_at        │
-└──────────────┘  └───────────────────┘
-```
-
-### Relasi Antar Model
-
-| Relasi | Dari | Ke | Tipe |
-|--------|------|----|------|
-| User → Products | `users` | `products` | `hasMany` |
-| Product → User | `products` | `users` | `belongsTo` |
-| Product → Images | `products` | `product_images` | `hasMany` |
-| User → Favorites | `users` | `favorites` | `hasMany` |
-| Product → Favorites | `products` | `favorites` | `hasMany` |
-| Favorite → User | `favorites` | `users` | `belongsTo` |
-| Favorite → Product | `favorites` | `products` | `belongsTo` |
+- **Backend Framework**: [Laravel 12.0](https://laravel.com/) (PHP ^8.2) — Mengelola routing, controller, ORM database, middleware, dan keamanan sistem.
+- **Frontend & Styling**: Blade Templates & [Tailwind CSS v4](https://tailwindcss.com/) — Digunakan untuk antarmuka pengguna yang responsif dan modern dengan utility classes terbaru.
+- **Dynamic Component**: [Livewire v4.x](https://livewire.laravel.com/) — Digunakan untuk interaksi UI yang dinamis tanpa full-page reload (misal pada filter pencarian dan load artikel).
+- **Bundler & Build Tool**: [Vite v7.x](https://vite.dev/) — Untuk manajemen aset JavaScript dan CSS agar load-time aplikasi lebih cepat.
+- **Database**: [MySQL](https://www.mysql.com/) — Tempat penyimpanan seluruh data relasional aplikasi.
+- **Text Editor (WYSIWYG)**: [TinyMCE](https://www.tiny.cloud/) — Digunakan untuk mempermudah penulisan konten artikel dengan formatting kaya (rich text).
+- **Asset Storage & CDN**: [ImageKit](https://imagekit.io/) — Digunakan untuk manajemen penyimpanan dan optimasi gambar profil serta thumbnail artikel secara cloud-based.
 
 ---
 
-## ⚙️ Alur Sistem & Algoritma
+## ⚙️ Instalasi & Setup
 
-### 1. Alur Registrasi & Verifikasi Email
+Ikuti langkah-langkah di bawah ini untuk menjalankan proyek Psychologia di lingkungan lokal:
 
-```
-User Input (name, nim, major, email, whatsapp, password)
-        │
-        ▼
- Validasi Data (Laravel Validator)
-        │
-        ├── NIM sudah terdaftar? ──► Redirect + Toast Error
-        │
-        ├── Email sudah terdaftar? ──► Redirect + Toast Error
-        │
-        ▼
- Hash Password (bcrypt, 12 rounds)
-        │
-        ▼
- Simpan User ke Database
-        │
-        ▼
- Auto Login (auth guard 'web')
-        │
-        ▼
- Kirim Email Verifikasi (Brevo SMTP)
-  [Template kustom Bahasa Indonesia]
-        │
-        ▼
- Redirect ke Halaman /verify (instruksi)
-        │
- User klik link di email
-        │
-        ▼
- Laravel verifikasi signed URL (middleware 'signed')
-        │
-        ▼
- email_verified_at diisi → Akses penuh dibuka
-```
+### Prasyarat (Prerequisites)
+Pastikan Anda sudah menginstal:
+* PHP >= 8.2
+* Composer
+* Node.js & npm
+* SQLite / MySQL Database
 
-### 2. Alur Upload & Penyimpanan Foto Produk
-
-```
-User Upload (maks. 6 foto, maks. 5120KB/foto, format: jpeg/png/jpg/gif)
-        │
-        ▼
- Validasi File (image, mimes, max size)
-        │
-        ▼
- Foto pertama → disimpan sebagai thumbnail (products.image_url)
-        │
-        ▼
- Semua foto → disimpan di storage/app/public/products/
-        │
-        ▼
- Setiap path foto → disimpan ke tabel product_images
-  (product_id, image_url)
-        │
-        ▼
- Akses foto via: /uploads/products/{filename}
- (menggunakan request()->root() agar tidak terikat APP_URL)
-```
-
-### 3. Algoritma Katalog dengan Search, Filter & Sort
-
-```php
-// Pseudocode alur katalog produk
-
-baseQuery = Product::query()
-
-// Step 1: Terapkan pencarian (jika ada input 'search')
-if (request.search != '') {
-    baseQuery.where('name', 'LIKE', '%search%')
-}
-
-// Step 2: Hitung jumlah per kategori (SEBELUM filter kategori diterapkan)
-// Ini memastikan counter menampilkan hasil pencarian, bukan semua produk
-categoryCounts = {
-    'All'      => count(baseQuery),
-    'Preloved' => count(baseQuery.where('category', 'Preloved')),
-    'Food'     => count(baseQuery.where('category', 'Food')),
-    'Beverage' => count(baseQuery.where('category', 'Beverage')),
-    'Service'  => count(baseQuery.where('category', 'Service')),
-}
-
-// Step 3: Terapkan filter kategori (jika bukan 'All')
-query = clone(baseQuery)
-if (request.filter != 'All') {
-    query.where('category', request.filter)
-}
-
-// Step 4: Terapkan pengurutan
-if (sort == 'Price: Low → High') {
-    query.orderBy('price', 'asc')
-} else if (sort == 'Price: High → Low') {
-    query.orderBy('price', 'desc')
-} else {  // Default: Newest
-    query.orderBy('created_at', 'desc')
-}
-
-// Step 5: Paginate hasil (20 per halaman, pertahankan query string)
-products = query.paginate(20).withQueryString()
-```
-
-> **Kunci desain**: `baseQuery` untuk menghitung `categoryCounts` diclone *sebelum* filter kategori diterapkan, sehingga counter kategori selalu mencerminkan hasil pencarian yang benar.
-
-### 4. Sistem Favorit (Toggle)
-
-```
-User klik tombol Favorit pada produk X
-        │
-        ▼
- Cek di tabel favorites:
- WHERE user_id = Auth::id() AND product_id = X
-        │
-        ├── Ditemukan ──► DELETE record → Status: 'removed'
-        │
-        └── Tidak ada ──► INSERT record → Status: 'added'
-        │
-        ▼
- Jika AJAX request → return JSON response
- Jika non-AJAX    → redirect back + Toast notification
-```
-
-### 5. Pengelolaan Edit Foto Produk
-
-```
-Pengguna di halaman Edit Produk:
-        │
-        ├── Hapus foto yang ada
-        │       │
-        │       ▼
-        │   Ambil ID foto yang dipilih (deleted_images[])
-        │   → Hapus file dari Storage::disk('public')
-        │   → Hapus record dari tabel product_images
-        │
-        └── Tambah foto baru
-                │
-                ▼
-            Simpan file baru ke storage
-            → Buat record baru di product_images
-        │
-        ▼
- Update thumbnail: ambil foto pertama yang tersisa
- → Update products.image_url dengan foto pertama
-```
-
----
-
-## 🔑 Sistem Middleware & Proteksi Rute
-
-| Rute | Middleware | Keterangan |
-|------|-----------|------------|
-| `/` (Home) | — | Publik, tanpa login |
-| `/products/catalog` | — | Publik, tanpa login |
-| `/products/{id}` | — | Detail produk, publik |
-| `/profile/{id}` | — | Profil pengguna, publik |
-| `/products/create` | `auth`, `verified` | Harus login & email terverifikasi |
-| `/products/form` (POST) | `auth`, `verified` | Harus login & email terverifikasi |
-| `/products/{id}/edit` | `auth`, `verified` | Harus login & email terverifikasi |
-| `/users/my-products` | `auth`, `verified` | Harus login & email terverifikasi |
-| `/favorite/toggle/{id}` | `auth`, `verified` | Harus login & email terverifikasi |
-| `/my-favorites` | `auth`, `verified` | Harus login & email terverifikasi |
-| `/profile/{id}/edit` | `auth` | Hanya perlu login (bolum belum verified) |
-| `/verify/resend` | `auth`, `throttle:1,1` | Throttle: maks. 1x per menit |
-
----
-
-## 📦 Stack Teknologi
-
-### Backend
-| Teknologi | Versi | Kegunaan |
-|-----------|-------|----------|
-| **PHP** | ^8.2 | Bahasa pemrograman server-side |
-| **Laravel** | ^12.0 | Framework MVC utama |
-| **Livewire** | ^4.2 | Komponen dinamis reaktif |
-| **Laravel Tinker** | ^2.10 | REPL untuk debugging |
-
-### Frontend
-| Teknologi | Versi | Kegunaan |
-|-----------|-------|----------|
-| **Blade** | (Laravel) | Template engine server-side |
-| **TailwindCSS** | ^4.2 | Utility-first CSS framework |
-| **Vite** | ^7.0 | Build tool & dev server frontend |
-| **Axios** | ^1.11 | HTTP client untuk request AJAX |
-| **Font Awesome** | (CDN) | Ikon UI |
-| **DiceBear API** | (CDN) | Avatar pengguna otomatis |
-
-### Database & Storage
-| Teknologi | Kegunaan |
-|-----------|----------|
-| **MySQL** | Database utama |
-| **Laravel File Storage** | Penyimpanan foto produk lokal (`storage/app/public`) |
-
-### Email & Komunikasi
-| Layanan | Kegunaan |
-|---------|----------|
-| **Brevo (Sendinblue) SMTP** | Pengiriman email verifikasi |
-| **WhatsApp** | Komunikasi langsung pembeli-penjual (link `wa.me/`) |
-
-### Development Tools
-| Tool | Kegunaan |
-|------|----------|
-| **Laravel Pail** | Log viewer real-time |
-| **Laravel Sail** | Docker environment |
-| **Concurrently** | Menjalankan beberapa proses sekaligus (`artisan serve` + `queue` + `vite`) |
-
----
-
-## 🚀 Instalasi & Setup
-
-### Prasyarat
-- PHP >= 8.2
-- Composer
-- Node.js & npm
-- MySQL
-- Akun Brevo (untuk email verifikasi)
-
-### 1. Clone & Install Dependensi
-
+### Langkah Instalasi
 ```bash
-git clone <repo-url>
-cd sellon
+# 1. Clone repositori ini
+git clone https://github.com/username/psychologia.git
+cd psychologia
 
-# Install semua dependensi sekaligus (menggunakan composer script)
+# 2. Jalankan setup otomatis
+# Perintah ini akan menginstal dependensi PHP/JS, menyalin .env, generate key, dan menjalankan migrasi database.
+composer install
 composer run setup
 ```
 
-Script `setup` secara otomatis menjalankan:
-1. `composer install`
-2. Salin `.env.example` → `.env` (jika belum ada)
-3. `php artisan key:generate`
-4. `php artisan migrate --force`
-5. `npm install`
-6. `npm run build`
-
-### 2. Konfigurasi Environment
-
-Buka file `.env` dan sesuaikan konfigurasi berikut:
-
+### Konfigurasi Environment (`.env`)
+Buka file `.env` di root direktori proyek, lalu sesuaikan konfigurasi database dan ImageKit:
 ```env
-# Konfigurasi Database
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1c
-DB_PORT=3306
-DB_DATABASE=sellon
-DB_USERNAME=root
-DB_PASSWORD=your_password
+# Database Configuration (Contoh menggunakan SQLite)
+DB_CONNECTION=sqlite
 
-# Konfigurasi Email (Brevo SMTP)
-MAIL_MAILER=smtp
-MAIL_HOST=smtp-relay.brevo.com
-MAIL_PORT=587
-MAIL_ENCRYPTION=tls
-MAIL_USERNAME=your_brevo_smtp_username
-MAIL_PASSWORD=your_brevo_smtp_password
-MAIL_FROM_ADDRESS="sellon@yourdomain.com"
-MAIL_FROM_NAME="SellOn"
+# ImageKit Configuration (Wajib diisi jika ingin fitur unggah gambar berfungsi)
+IMAGEKIT_PUBLIC_KEY=your_public_key
+IMAGEKIT_PRIVATE_KEY=your_private_key
+IMAGEKIT_URL_ENDPOINT=your_endpoint_url
 ```
 
-### 3. Setup Storage
-
+### Menjalankan Server Lokal
+Untuk menjalankan server Laravel, queue worker, real-time logging, dan Vite development server secara bersamaan, jalankan perintah berikut:
 ```bash
-# Buat symlink untuk storage publik (akses foto produk via browser)
-php artisan storage:link
-```
-
-### 4. Jalankan Aplikasi (Development)
-
-```bash
-# Menjalankan semua proses sekaligus (server + queue + logs + vite)
 composer run dev
-
-# Atau secara manual:
-php artisan serve          # Web server
-php artisan queue:listen   # Queue worker (untuk email)
-npm run dev                # Vite dev server
 ```
-
-Akses aplikasi di: **http://localhost:8000**
-
----
-
-## 📋 Daftar Route
-
-```
-GET    /                              → Home (landing page + produk terbaru)
-GET    /login                         → Halaman login
-POST   /login_post                    → Proses login
-GET    /register                      → Halaman registrasi
-POST   /register_post                 → Proses registrasi
-POST   /logout                        → Proses logout
-
-GET    /verify                        → Halaman instruksi verifikasi email
-GET    /email/verify/{id}/{hash}      → Callback link verifikasi dari email
-POST   /verify/resend                 → Kirim ulang email verifikasi
-
-GET    /products/catalog              → Katalog semua produk (search/filter/sort)
-GET    /products/create               → Form tambah produk [auth+verified]
-POST   /products/form                 → Simpan produk baru [auth+verified]
-GET    /products/view/{view_type}     → Tampilkan produk ke view tertentu
-GET    /products/{id}                 → Detail produk
-GET    /products/{id}/edit            → Form edit produk [auth+verified]
-PUT    /products/{id}                 → Update produk [auth+verified]
-DELETE /products/delete/{id}          → Hapus produk [auth+verified]
-
-GET    /profile/{id?}                 → Halaman profil pengguna
-GET    /profile/{id}/edit             → Form edit profil [auth]
-PUT    /profile/{id}                  → Update profil [auth]
-GET    /users/my-products             → Dashboard produk saya [auth+verified]
-
-POST   /favorite/toggle/{product_id}  → Toggle favorit [auth+verified]
-GET    /my-favorites                  → Daftar produk favorit [auth+verified]
-```
-
----
-
-## 🔒 Keamanan
-
-- **Password Hashing**: Menggunakan `bcrypt` dengan 12 rounds melalui `Hash::make()`.
-- **CSRF Protection**: Semua form POST/PUT/DELETE dilindungi token CSRF (`@csrf`).
-- **Email Verification**: Akses ke fitur marketplace dibatasi hanya untuk email terverifikasi.
-- **Signed URL**: Link verifikasi email menggunakan signed URL Laravel untuk mencegah manipulasi.
-- **Authorization Check**: Controller memeriksa kepemilikan sebelum izinkan edit/hapus.
-- **Mass Assignment Protection**: Semua model menggunakan `$fillable` untuk mencegah mass assignment vulnerability.
-- **Input Validation**: Semua input pengguna divalidasi di sisi server menggunakan Laravel Validator.
-- **Session Security**: Logout melakukan invalidasi session + regenerasi CSRF token.
-- **Throttle**: Endpoint kirim ulang email dibatasi 1 request per menit (`throttle:1,1`).
-
----
-
-## 📂 Kategori Produk
-
-| Kategori | Deskripsi | Stok |
-|----------|-----------|------|
-| **Preloved** | Barang bekas pakai mahasiswa | ✅ Wajib diisi |
-| **Food** | Makanan yang dijual mahasiswa | ✅ Wajib diisi |
-| **Beverage** | Minuman yang dijual mahasiswa | ✅ Wajib diisi |
-| **Service** | Jasa yang ditawarkan mahasiswa | ❌ `NULL` (tidak relevan) |
-
-> **Catatan**: Untuk kategori **Service**, field `stock` otomatis diset `NULL` karena jasa tidak memiliki stok fisik.
-
----
-
-## 🤝 Kontribusi
-
-SellOn adalah proyek kampus. Untuk berkontribusi:
-
-1. Fork repositori ini
-2. Buat branch fitur baru (`git checkout -b feature/NamaFitur`)
-3. Commit perubahan (`git commit -m 'feat: tambah fitur X'`)
-4. Push ke branch (`git push origin feature/NamaFitur`)
-5. Buat Pull Request
+Aplikasi dapat diakses melalui browser pada alamat [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 ---
 
 ## 📄 Lisensi
-
-Proyek ini menggunakan lisensi **MIT**. Lihat file [LICENSE](LICENSE) untuk detail lebih lanjut.
-
----
-
-<p align="center">
-  Dibuat dengan ❤️ oleh Mahasiswa, untuk Mahasiswa
-  <br>
-  <strong>SellOn</strong> — <em>Buy & Sell Within Your Campus</em>
-</p>
+Proyek ini bersifat open-source dan dilisensikan di bawah [MIT License](https://opensource.org/licenses/MIT). Anda bebas menggunakan, memodifikasi, dan mendistribusikan kode sumber aplikasi ini.
