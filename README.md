@@ -29,6 +29,10 @@
 ## 📌 Tentang Aplikasi
 
 **SellOn** adalah platform marketplace berbasis web yang dirancang **secara eksklusif untuk mahasiswa kampus**. Aplikasi ini memungkinkan mahasiswa untuk menjual dan membeli produk, makanan, minuman, serta menawarkan jasa kepada sesama mahasiswa di lingkungan kampus yang sama — layaknya marketplace mini internal kampus.
+  
+  ### Live Website
+  Demo aplikasi website dapat langsung diakses melalui link di bawah ini:
+  * **URL**: [https://sellon.infinityfreeapp.com/](https://sellon.infinityfreeapp.com/)
 
 ### 🎯 Tujuan Aplikasi
 
