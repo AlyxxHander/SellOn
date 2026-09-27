@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class VerificationController extends Controller
 {
@@ -26,6 +28,30 @@ class VerificationController extends Controller
      * Proses klik link verifikasi dari email.
      * Menggunakan EmailVerificationRequest bawaan Laravel yang sudah
      * memvalidasi signature dan memastikan ID cocok dengan user yang login.
+     */
+
+    // public function verify(Request $request, $id, $hash)
+    // {
+    //   $user = User::findOrFail($id);
+
+    //   if (!hash_equals($hash, sha1($user->getEmailForVerification()))) {
+    //     abort(403, 'Invalid verification link.');
+    //   }
+    //   if ($user->hasVerifiedEmail()) {
+    //     return redirect()
+    //       ->route('product.index', ['view_type' => 'home'])
+    //       ->with('toast_success', 'Email Anda sudah diverifikasi!');
+    //   }
+    //   $user->markEmailAsVerified();
+    //   Auth::login($user);
+    //   return redirect()
+    //     ->route('product.index', ['view_type' => 'home'])
+    //     ->with('toast_success',
+    //         'Email berhasil diverifikasi! Selamat datang di SellOn, '.$user->name.'!');
+    // }
+
+    /**
+     * ORIGINAL VERIFY CODE
      */
     public function verify(EmailVerificationRequest $request)
     {

@@ -26,12 +26,13 @@ Route::post('/register_post', [UserController::class, 'register'])->name('regist
 
 
 // ---------------------------------|| EMAIL VERIFICATION ROUTES ||---------------------------------
+// [ GET ] callback link verifikasi dari email (harus signed URL)
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+  ->middleware('signed')->name('verification.verify');
+
 Route::middleware('auth')->group(function () {
   // [ GET ] halaman instruksi verifikasi email
   Route::get('/verify', [VerificationController::class, 'showNotice'])->name('verification.notice');
-  // [ GET ] callback link verifikasi dari email (harus signed URL)
-  Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-    ->middleware('signed')->name('verification.verify');
   // [ POST ] kirim ulang email verifikasi (throttle: 1x per menit)
   Route::post('/verify/resend', [VerificationController::class, 'resend'])
     ->middleware('throttle:1,1')->name('verification.send');
