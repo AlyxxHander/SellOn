@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\ForgotPasswordController;
 
 // ---------------------------------|| AUTH ROUTES ||---------------------------------
 // [ GET ] landing page (home)
@@ -25,11 +26,31 @@ Route::post('/register_post', [UserController::class, 'register'])->name('regist
 
 
 
-// ---------------------------------|| EMAIL VERIFICATION ROUTES ||---------------------------------
-// [ GET ] callback link verifikasi dari email (harus signed URL)
-Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-  ->middleware('signed')->name('verification.verify');
 
+/*
+|-------------------------------------------------------------------
+| Forgot Password Routes
+|-------------------------------------------------------------------
+*/
+Route::middleware('guest')->group(function () {
+  // Form request email
+  Route::get('/password/forgot', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->name('password.request');
+  // Handle email submission → send reset link
+  Route::post('/password/forgot', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+  // Form reset password (token is signed)
+  Route::get('/password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+  // Handle new password submission
+  Route::post('/password/reset', [ForgotPasswordController::class, 'reset'])
+    ->name('password.update');
+});
+
+
+
+
+// ---------------------------------|| EMAIL VERIFICATION ROUTES ||---------------------------------
 Route::middleware('auth')->group(function () {
   // [ GET ] halaman instruksi verifikasi email
   Route::get('/verify', [VerificationController::class, 'showNotice'])->name('verification.notice');
@@ -37,6 +58,9 @@ Route::middleware('auth')->group(function () {
   Route::post('/verify/resend', [VerificationController::class, 'resend'])
     ->middleware('throttle:1,1')->name('verification.send');
 });
+// [ GET ] callback link verifikasi dari email (harus signed URL)
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+  ->middleware('signed')->name('verification.verify');
 
 
 
