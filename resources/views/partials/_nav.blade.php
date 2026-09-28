@@ -96,6 +96,9 @@
             <span class="text-xs text-white/60 truncate block">{{ Auth::user()->email }}</span>
           </div>
         </div>
+        <a href="{{ route('users.my-products') }}" class="nav-link flex items-center gap-x-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors">
+          <i class="fa-solid fa-box-open w-5 text-center text-brand-accent"></i> My Products
+        </a>
         <a href="{{ route('favorite.index') }}" class="nav-link flex items-center gap-x-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors">
           <i class="fa-solid fa-heart w-5 text-center text-red-400"></i> My Favorites
         </a>

@@ -53,14 +53,18 @@ Route::middleware('guest')->group(function () {
 // ---------------------------------|| EMAIL VERIFICATION ROUTES ||---------------------------------
 Route::middleware('auth')->group(function () {
   // [ GET ] halaman instruksi verifikasi email
-  Route::get('/verify', [VerificationController::class, 'showNotice'])->name('verification.notice');
+  Route::get('/verify', [VerificationController::class, 'showNotice'])
+    ->name('verification.notice');
   // [ POST ] kirim ulang email verifikasi (throttle: 1x per menit)
   Route::post('/verify/resend', [VerificationController::class, 'resend'])
-    ->middleware('throttle:1,1')->name('verification.send');
+    ->middleware('throttle:1,1')
+    ->name('verification.send');
+  // [ GET ] callback link verifikasi dari email (harus signed URL)
+  Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+    ->middleware(['signed', 'auth'])
+    ->name('verification.verify');
 });
-// [ GET ] callback link verifikasi dari email (harus signed URL)
-Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-  ->middleware('signed')->name('verification.verify');
+
 
 
 

@@ -29,107 +29,197 @@ $product = Variable about the product being edited
               <div class="remove-existing-img absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity" data-id="{{ $image->id }}">✕</div>
             </div>
           @endforeach
-
           <!-- The Add Button -->
           <div class="upload-box flex items-center justify-center cursor-pointer border-2 border-dashed border-slate-300 rounded-xl hover:bg-slate-50 transition-colors" id="add-image-button">
             <span class="text-3xl text-slate-300 font-light">+</span>
           </div>
         </div>
-        
         <div id="new-images-inputs" class="hidden">
           <!-- Active empty input waiting for file -->
-          <input type="file" name="new_image_urls[]" accept="image/png, image/jpeg" class="dynamic-file-input" id="input-file-cursor">
+          <input 
+            type="file" 
+            id="input-file-cursor"
+            name="new_image_urls[]" 
+            accept="image/png, image/jpeg" 
+            class="dynamic-file-input"
+          >
         </div>
         <div id="deleted-images-container" class="hidden">
           <!-- Hidden inputs for deleted existing image IDs -->
         </div>
-        
-        <span class="text-xs text-red-500 hidden mt-1" id="err-foto">Choose at least 1 photo.</span>
+        <span id="err-foto" class="text-xs text-red-500 hidden mt-1"></span>
       </div>
 
       <div class="mb-6">
-        <label class="block text-sm font-semibold text-brand-main mb-2">Product Name <span
-            class="text-red-500">*</span></label>
-        <input type="text" name="name" id="name" class="input-field" placeholder="Product Name"
-          value="{{ old('name', $product->name) }}" required>
-        <span class="text-xs text-red-500 hidden mt-1 err-msg">Product name is required.</span>
+        <label class="block text-sm font-semibold text-brand-main mb-2">
+          Product Name 
+          <span class="text-red-500">*</span>
+        </label>
+        <input 
+          type="text" 
+          id="name"
+          name="name" 
+          class="input-field" 
+          placeholder="Product Name"
+          value="{{ old('name', $product->name) }}" 
+          required
+        >
+        <span class="text-xs text-red-500 hidden mt-1 err-msg">Nama produk harus diisi</span>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
         <div>
-          <label class="block text-sm font-semibold text-brand-main mb-2">Category <span
-              class="text-red-500">*</span></label>
-          <select id="category" name="category" class="input-field cursor-pointer" required>
+          <label class="block text-sm font-semibold text-brand-main mb-2">
+            Category 
+            <span class="text-red-500">*</span>
+          </label>
+          <select 
+            id="category" 
+            name="category" 
+            class="input-field cursor-pointer" 
+            required
+          >
             <option value="" disabled>Pilih Kategori</option>
-            <option value="Preloved" {{ $product->category === 'Preloved' ? 'selected' : '' }}>Preloved</option>
-            <option value="Food" {{ $product->category === 'Food' ? 'selected' : '' }}>Food</option>
-            <option value="Beverage" {{ $product->category === 'Beverage' ? 'selected' : '' }}>Beverage</option>
-            <option value="Service" {{ $product->category === 'Service' ? 'selected' : '' }}>Service</option>
+            <option value="Preloved" 
+              {{ $product->category === 'Preloved' ? 'selected' : '' }}
+            >
+              Preloved
+            </option>
+            <option value="Food" 
+              {{ $product->category === 'Food' ? 'selected' : '' }}
+            >
+              Food
+            </option>
+            <option value="Beverage" 
+              {{ $product->category === 'Beverage' ? 'selected' : '' }}
+            >
+              Beverage
+            </option>
+            <option value="Service" 
+              {{ $product->category === 'Service' ? 'selected' : '' }}
+            >
+              Service
+            </option>
           </select>
-          <span class="text-xs text-red-500 hidden mt-1 err-msg">Choose a category.</span>
+          <span class="text-xs text-red-500 hidden mt-1 err-msg">Kategori produk harus diisi</span>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-brand-main mb-2">Price (Rp) <span
-              class="text-red-500">*</span></label>
+          <label class="block text-sm font-semibold text-brand-main mb-2">
+            Price (Rp) 
+            <span class="text-red-500">*</span>
+          </label>
           <div class="relative">
-            <input type="number" id="price" name="price" class="input-field pl-10" placeholder="0" min="0"
-              value="{{ old('price', $product->price) }}" required>
+            <input 
+              type="number" 
+              id="price" 
+              name="price" 
+              class="input-field pl-10" 
+              placeholder="0" 
+              min="0"
+              value="{{ old('price', $product->price) }}" 
+              required
+            >
           </div>
-          <span class="text-xs text-red-500 hidden mt-1 err-msg">Price is required.</span>
+          <span class="text-xs text-red-500 hidden mt-1 err-msg">Harga produk harus diisi</span>
         </div>
       </div>
 
       <div id="stock-section" class="mb-6">
-        <label class="block text-sm font-semibold text-brand-main mb-2">Stock <span
-            class="text-red-500">*</span></label>
+        <label class="block text-sm font-semibold text-brand-main mb-2">
+          Stock 
+          <span class="text-red-500">*</span>
+        </label>
         <div class="relative">
-          <input type="number" id="stock" name="stock" 
+          <input 
+            type="number" 
+            id="stock" 
+            name="stock" 
             class="input-field" 
             placeholder="Rp. 10.000 - Rp. 1.000.000" 
             value="{{ old('stock', $product->stock) }}"
             min="10000" 
             max="1000000"
             step="10000"
-            required>>
+            required
+          >
         </div>
-        <span class="text-xs text-red-500 hidden mt-1 err-msg">Stock is required.</span>
+        <span class="text-xs text-red-500 hidden mt-1 err-msg">Stok produk harus diisi</span>
       </div>
 
       <div class="mb-6 bg-brand-tertiary p-4 rounded-xl border border-slate-100" id="condition-section">
-        <label class="block text-sm font-semibold text-brand-main mb-3">Condition <span
-            class="text-red-500">*</span></label>
+        <label class="block text-sm font-semibold text-brand-main mb-3">
+          Condition 
+          <span class="text-red-500">*</span>
+        </label>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <label class="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="condition" value="New (Never Opened)" class="custom-radio" {{ $product->condition === 'New (Never Opened)' ? 'checked' : '' }}>
+            <input 
+              type="radio" 
+              name="condition" 
+              value="New (Never Opened)" 
+              class="custom-radio" 
+              {{ $product->condition === 'New (Never Opened)' ? 'checked' : '' }}
+            >
             <span class="text-sm">New (Never Opened)</span>
           </label>
           <label class="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="condition" value="Used - Pristine" class="custom-radio" {{ $product->condition === 'Used - Pristine' ? 'checked' : '' }}>
+            <input 
+              type="radio" 
+              name="condition" 
+              value="Used - Pristine" 
+              class="custom-radio" 
+              {{ $product->condition === 'Used - Pristine' ? 'checked' : '' }}
+            >
             <span class="text-sm">Used - Pristine</span>
           </label>
           <label class="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="condition" value="Used - Good" class="custom-radio" {{ $product->condition === 'Used - Good' ? 'checked' : '' }}>
+            <input 
+              type="radio" 
+              name="condition" 
+              value="Used - Good" 
+              class="custom-radio" 
+              {{ $product->condition === 'Used - Good' ? 'checked' : '' }}
+            >
             <span class="text-sm">Used - Good</span>
           </label>
           <label class="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="condition" value="Used - Fair" class="custom-radio" {{ $product->condition === 'Used - Fair' ? 'checked' : '' }}>
+            <input 
+              type="radio" 
+              name="condition" 
+              value="Used - Fair" 
+              class="custom-radio" 
+              {{ $product->condition === 'Used - Fair' ? 'checked' : '' }}
+            >
             <span class="text-sm">Used - Fair</span>
           </label>
         </div>
-        <span class="text-xs text-red-500 hidden mt-2" id="err-condition">Condition is required for Preloved category.</span>
+        <span id="err-condition" class="text-xs text-red-500 hidden mt-2"></span>
       </div>
 
       <div class="mb-8">
         <div class="flex justify-between items-end mb-2">
-          <label class="block text-sm font-semibold text-brand-main">Product Description <span
-              class="text-red-500">*</span></label>
-          <span class="text-xs text-brand-muted"><span id="char-count">{{ strlen($product->description) }}</span>/500</span>
+          <label class="block text-sm font-semibold text-brand-main">
+            Product Description 
+            <span class="text-red-500">*</span>
+          </label>
+          <span class="text-xs text-brand-muted">
+            <span id="char-count">
+              {{ strlen($product->description) }}
+            </span>
+            /500
+          </span>
         </div>
-        <textarea id="description" name="description" class="input-field resize-none"
+        <textarea 
+          id="description" 
+          name="description" 
+          class="input-field resize-none"
           placeholder="Describe the product in detail, specifications, or any flaws if any..." maxlength="500"
-          required>{{ old('description', $product->description) }}</textarea>
-        <span class="text-xs text-red-500 hidden mt-1 err-msg">Description is required.</span>
+          required
+        >
+          {{ old('description', $product->description) }}
+        </textarea>
+        <span class="text-xs text-red-500 hidden mt-1 err-msg">Deskripsi Produk harus diisi.</span>
       </div>
 
       <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t border-slate-100">

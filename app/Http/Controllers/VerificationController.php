@@ -57,15 +57,17 @@ class VerificationController extends Controller
     {
         // Jika sudah terverifikasi sebelumnya, redirect langsung
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->route('product.index', ['view_type' => 'home'])
-                ->with('toast_success', 'Email Anda sudah terverifikasi sebelumnya!');
+            return redirect()
+              ->route('product.index', ['view_type' => 'home'])
+              ->with('toast_success', 'Email Anda sudah terverifikasi sebelumnya!');
         }
 
         // Tandai email sebagai terverifikasi (isi email_verified_at)
         $request->fulfill();
 
-        return redirect()->route('product.index', ['view_type' => 'home'])
-            ->with('toast_success', 'Email berhasil diverifikasi! Selamat datang di SellOn, ' . $request->user()->name . '!');
+        return redirect()
+          ->route('product.index', ['view_type' => 'home'])
+          ->with('toast_success', 'Email berhasil diverifikasi! Selamat datang di SellOn, ' . $request->user()->name . '!');
     }
 
     /**

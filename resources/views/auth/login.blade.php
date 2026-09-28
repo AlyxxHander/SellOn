@@ -15,13 +15,27 @@
         @csrf
         <div id="email-form">
           <label class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
-          <input id="email" name="email" type="email" class="input-field" placeholder="email@webmail.umm.ac.id">
-          <span id="err-login-email" class="text-xs text-red-500 hidden mt-1">Use UMM email (@webmail.umm.ac.id).</span>
+          <input 
+            id="email" 
+            name="email" 
+            type="email" 
+            class="input-field" 
+            placeholder="email@webmail.umm.ac.id"
+            required
+          >
+          <span id="err-login-email" class="text-xs text-red-500 hidden mt-1"></span>
         </div>  
         <div id="password-form">
           <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
-          <input id="password" name="password" type="password" class="input-field" placeholder="••••••••">
-          <span id="err-login-password" class="text-xs text-red-500 hidden mt-1">Password must not be Empty.</span>
+          <input 
+            id="password" 
+            name="password" 
+            type="password" 
+            class="input-field" 
+            placeholder="••••••••"
+            required
+          >
+          <span id="err-login-password" class="text-xs text-red-500 hidden mt-1"></span>
         </div>
         <div>
           <a href="{{ route('password.request') }}" class="text-sm text-primary-600 hover:text-brand-accent hover:underline">

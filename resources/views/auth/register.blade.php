@@ -29,7 +29,7 @@
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">Major</label>
             <input id="major" name="major" type="text" class="input-field" placeholder="Major" required>
-            <span id="err-jurusan" class="text-xs text-red-500 hidden mt-1">Major must not be Empty.</span>
+            <span id="err-major" class="text-xs text-red-500 hidden mt-1">Major must not be Empty.</span>
           </div>
         </div>
 
@@ -37,12 +37,12 @@
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
             <input id="email" name="email" type="email" class="input-field" placeholder="email@webmail.umm.ac.id" required>
-            <span id="err-login-email" class="text-xs text-red-500 hidden mt-1">Use UMM email (@webmail.umm.ac.id).</span>
+            <span id="err-email" class="text-xs text-red-500 hidden mt-1">Use UMM email (@webmail.umm.ac.id).</span>
           </div>
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">No WhatsApp</label>
             <input id="whatsapp_no" name="whatsapp_no" type="tel" class="input-field" placeholder="08xxxxxxxxx">
-            <span id="err-no-whatsapp" class="text-xs text-red-500 hidden mt-1">Invalid WhatsApp number (must be 08...).</span>
+            <span id="err-whatsapp-no" class="text-xs text-red-500 hidden mt-1">Invalid WhatsApp number (must be 08...).</span>
           </div>
         </div>
 
