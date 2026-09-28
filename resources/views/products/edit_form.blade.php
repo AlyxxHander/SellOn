@@ -84,8 +84,14 @@ $product = Variable about the product being edited
         <label class="block text-sm font-semibold text-brand-main mb-2">Stock <span
             class="text-red-500">*</span></label>
         <div class="relative">
-          <input type="number" id="stock" name="stock" class="input-field" placeholder="1" min="1" 
-            value="{{ old('stock', $product->stock) }}">
+          <input type="number" id="stock" name="stock" 
+            class="input-field" 
+            placeholder="Rp. 10.000 - Rp. 1.000.000" 
+            value="{{ old('stock', $product->stock) }}"
+            min="10000" 
+            max="1000000"
+            step="10000"
+            required>>
         </div>
         <span class="text-xs text-red-500 hidden mt-1 err-msg">Stock is required.</span>
       </div>

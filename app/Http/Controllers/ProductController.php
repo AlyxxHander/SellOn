@@ -91,7 +91,7 @@ class ProductController extends Controller
     $validation = $request->validate([
       'name' => ['required', 'string', 'max:255'],
       'description' => ['required', 'string', 'max:500'],
-      'price' => ['required', 'numeric', 'min:0'],
+      'price' => ['required', 'numeric', 'min:10000', 'max:1000000', 'step:10000'],
       'category' => ['required', 'string'],
       'stock' => ['nullable', 'numeric', 'min:0'],
       'condition' => ['nullable', 'string'],

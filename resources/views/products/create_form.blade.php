@@ -78,7 +78,13 @@
           <label class="block text-sm font-semibold text-brand-main mb-2">Price (Rp.) <span
               class="text-red-500">*</span></label>
           <div class="relative">
-            <input type="number" id="price" name="price" class="input-field" placeholder="0" min="0" required>
+            <input type="number" id="price" name="price" 
+              class="input-field"
+              placeholder="Rp. 10.000 - Rp. 1.000.000" 
+              min="10000" 
+              max="1000000"
+              step="10000"
+              required>
           </div>
           <span class="text-xs text-red-500 hidden mt-1 err-msg">Price is required.</span>
         </div>
