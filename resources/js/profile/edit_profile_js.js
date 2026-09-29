@@ -76,59 +76,8 @@ const rules = [
   },
 ];
 
-// ------------------------------------------------------------------
-// Helper – menampilkan / menghapus pesan error
-// ------------------------------------------------------------------
-function setError($input, $error, message) {
-  if (message) {
-    $input.addClass('error');
-    $error.removeClass('hidden').text(message).show();
-  } else {
-    $input.removeClass('error');
-    $error.addClass('hidden').text('').hide();
-  }
-}
 
-// ------------------------------------------------------------------
-// Validasi satu field berdasarkan rules
-// ------------------------------------------------------------------
-function validateField($input, $error) {
-  const value = ($input.val() || '').trim();
-
-  for (const test of rules.find(r => r.input === $input.selector).tests) {
-    const conditionResult = test.condition(value);
-
-    if (conditionResult) {
-      setError($input, $error, test.message);
-      return false;
-    }
-  }
-
-  setError($input, $error, '');
-  return true;
-}
-
-// ------------------------------------------------------------------
-// Inisialisasi – attach listener ke semua input yang memiliki data‑rules
-// ------------------------------------------------------------------
 $(document).ready(function () {
-
-
-  // // Attach listeners
-  // rules.forEach(rule => {
-  //   const $input = $(rule.input);
-  //   const $error = $(rule.error);
-
-  //   // On blur → validasi sekali
-  //   $input.on('blur', () => {
-  //     validateField($input, $error);
-  //   });
-
-  //   $input.on('input', () => {
-  //     validateField($input, $error);
-  //   });
-  // });
-
   // ----------------------------------------------------------------
   // Submit handling
   // ----------------------------------------------------------------
@@ -155,9 +104,6 @@ $(document).ready(function () {
           break;
         }
       }
-
-      // const ok = validateField($input, $error);
-      // if (!ok) isValid = false;
     });
 
     if (!isValid) {

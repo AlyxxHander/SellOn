@@ -16,49 +16,96 @@
         @csrf
         <div class="mb-4">
           <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
-          <input id="name" name="name" type="text" class="input-field" placeholder="Nama sesuai KTM" required>
-          <span id="err-name" class="text-xs text-red-500 hidden mt-1">Full Name must not be Empty.</span>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            class="input-field" 
+            placeholder="Nama sesuai KTM" 
+            required
+          >
+          <span id="err-name" class="text-xs text-red-500 hidden mt-1"></span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">NIM</label>
-            <input id="nim" name="nim" type="text" class="input-field" placeholder="15 Digit NIM" maxlength="15">
-            <span id="err-nim" class="text-xs text-red-500 hidden mt-1">NIM must be 15 digits.</span>
+            <input
+              type="text"
+              id="nim"
+              name="nim"
+              class="input-field"
+              placeholder="15 Digit NIM"
+              maxlength="15"
+            >
+            <span id="err-nim" class="text-xs text-red-500 hidden mt-1"></span>
           </div>
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">Major</label>
-            <input id="major" name="major" type="text" class="input-field" placeholder="Major" required>
-            <span id="err-major" class="text-xs text-red-500 hidden mt-1">Major must not be Empty.</span>
+            <input 
+              type="text" 
+              id="major" 
+              name="major" 
+              class="input-field" 
+              placeholder="Major" 
+              required
+            >
+            <span id="err-major" class="text-xs text-red-500 hidden mt-1"></span>
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
-            <input id="email" name="email" type="email" class="input-field" placeholder="email@webmail.umm.ac.id" required>
-            <span id="err-email" class="text-xs text-red-500 hidden mt-1">Use UMM email (@webmail.umm.ac.id).</span>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              class="input-field" 
+              placeholder="email@webmail.umm.ac.id" 
+              required
+            >
+            <span id="err-email" class="text-xs text-red-500 hidden mt-1"></span>
           </div>
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">No WhatsApp</label>
-            <input id="whatsapp_no" name="whatsapp_no" type="tel" class="input-field" placeholder="08xxxxxxxxx">
-            <span id="err-whatsapp-no" class="text-xs text-red-500 hidden mt-1">Invalid WhatsApp number (must be 08...).</span>
+            <input 
+              type="tel" 
+              id="whatsapp_no" 
+              name="whatsapp_no" 
+              class="input-field" 
+              placeholder="08xxxxxxxxx"
+            >
+            <span id="err-whatsapp-no" class="text-xs text-red-500 hidden mt-1"></span>
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
-            <input id="password" name="password" type="password" class="input-field" placeholder="••••••••" required>
-            <span id="err-password" class="text-xs text-red-500 hidden mt-1">Use Minimum of 5 Character for Password.</span>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="input-field" 
+              placeholder="••••••••" 
+              required
+            >
+            <span id="err-password" class="text-xs text-red-500 hidden mt-1"></span>
           </div>
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">Confirm Password</label>
-            <input id="password_confirmation" name="password_confirmation" type="password" class="input-field" placeholder="••••••••" required>
-            <span id="err-password-conf" class="text-xs text-red-500 hidden mt-1">Confirm Password does not match.</span>
+            <input 
+              type="password" 
+              id="password_confirmation" 
+              name="password_confirmation" 
+              class="input-field" 
+              placeholder="••••••••" 
+              required
+            >
+            <span id="err-password-conf" class="text-xs text-red-500 hidden mt-1"></span>
           </div>
         </div>
-
         <button type="submit" class="btn btn-primary w-full">Register</button>
       </form>
 
@@ -66,13 +113,20 @@
       <div class="flex items-start gap-x-2 bg-teal-50 border border-teal-200 rounded-lg px-4 py-3 mt-4">
         <i class="fa-solid fa-envelope-circle-check text-brand-accent text-sm mt-0.5 flex-shrink-0"></i>
         <p class="text-xs text-teal-700">
-          Setelah mendaftar, <strong>link verifikasi</strong> akan dikirim ke email kampus Anda. Akun baru dapat diaktifkan setelah verifikasi selesai.
+          Setelah mendaftar, 
+          <strong>link verifikasi</strong> 
+          akan dikirim ke email kampus Anda. Akun baru dapat diaktifkan setelah verifikasi selesai.
         </p>
       </div>
 
       <p class="text-center text-sm text-brand-muted mt-6">
-        Already have an account? <a href="{{ route('login') }}"
-          class="text-brand-accent font-medium inline-block hover:underline">Login here</a>
+        Already have an account? 
+        <a
+          href="{{ route('login') }}"
+          class="text-brand-accent font-medium inline-block hover:underline"
+        >
+          Login here
+        </a>
       </p>
     </div>
   </div>

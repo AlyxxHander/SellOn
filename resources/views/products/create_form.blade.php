@@ -222,8 +222,7 @@
           placeholder="Jelaskan detail produk, spesifikasi, atau minus barang jika ada..." 
           maxlength="500"
           required
-        >
-        </textarea>
+        ></textarea>
         <span class="text-xs text-red-500 hidden mt-1 err-msg">Deskripsi produk harus diisi</span>
       </div>
 

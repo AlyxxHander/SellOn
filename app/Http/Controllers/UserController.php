@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -22,11 +20,23 @@ class UserController extends Controller
     ]);
 
     if (User::where('nim', $request->nim)->exists()) {
-      return redirect()->route('register')->with('toast_error', "The NIM you've inputted is already registered.");
+      return redirect()
+        ->route('register')
+        ->with(
+            "toast_error", 
+            "The NIM you've inputted is already registered."
+          );
     } else if (User::where('email', $request->email)->exists()) {
-      return redirect()->route('register')->with('toast_error', "The Email you've inputted is already registered.");
+      return redirect()
+        ->route('register')
+        ->with(
+            "toast_error", 
+            "The Email you've inputted is already registered."
+          );
     }
 
+    // Set role default menjadi admin
+    $validation['role'] = 'admin';
     // Enkripsi Password
     $validation['password'] = Hash::make($validation['password']);
     // Simpan user ke database
@@ -37,8 +47,12 @@ class UserController extends Controller
     $user->sendEmailVerificationNotification();
 
     // Redirect ke halaman instruksi verifikasi email
-    return redirect()->route('verification.notice')
-      ->with('toast_success', 'Akun berhasil dibuat! Cek inbox email kampus Anda untuk verifikasi.');
+    return redirect()
+      ->route('verification.notice')
+      ->with(
+          'toast_success', 
+          'Akun berhasil dibuat! Cek inbox email kampus Anda untuk verifikasi.'
+        );
   }
 
   public function login(Request $request) {
@@ -50,7 +64,12 @@ class UserController extends Controller
     // Check if User with the current inputted email exists
     $user = User::where('email', $request->email)->first();
     if(!$user) {
-      return redirect()->route('login')->with('toast_error', 'The Email you\'ve inputted is not registered.');
+      return redirect()
+        ->route('login')
+        ->with(
+            "toast_error", 
+            "The Email you\'ve inputted is not registered."
+          );
     }
 
     // Check if the User password is correct
@@ -59,15 +78,29 @@ class UserController extends Controller
 
       // Jika email belum terverifikasi, arahkan ke halaman verifikasi
       if (!auth()->user()->hasVerifiedEmail()) {
-        return redirect()->route('verification.notice')
-          ->with('toast_error', 'Email Anda belum diverifikasi. Cek inbox email kampus Anda.');
+        return redirect()
+          ->route('verification.notice')
+          ->with(
+              'toast_error', 
+              'Email Anda belum diverifikasi. Cek inbox email kampus Anda.'
+            );
       }
 
-      return redirect()->route('product.index', ['view_type' => 'home'])->with('toast_success', 'Welcome back! ' . $user->name . '!');
+      return redirect()
+        ->route('product.index', ['view_type' => 'home'])
+        ->with(
+            "toast_success", 
+            "Welcome back! " . $user->name . "!"
+          );
     }
 
     // Default return, if the User password is wrong
-    return redirect()->route('login')->with('toast_error', "The password you've inputted is wrong.");
+    return redirect()
+      ->route('login')
+      ->with(
+          "toast_error", 
+          "The password you've inputted is wrong."
+        );
   }
 
   public function logout(Request $request)
