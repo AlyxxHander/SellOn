@@ -85,6 +85,7 @@ $(document).ready(function () {
     e.preventDefault();
     let isValid = true;
 
+    // Reset UI on page load
     $('.input-field').removeClass('error');
     $('[id^="err-"]').hide().text('');
 
@@ -92,7 +93,6 @@ $(document).ready(function () {
       const $input = $(rule.input);
       const $error = $(rule.error);
       const value = ($input.val() || '').trim();
-      console.log('A -')
 
       for (const test of rule.tests) {
         // Evaluasi kondisi error
@@ -100,7 +100,6 @@ $(document).ready(function () {
           $input.addClass('error');
           $error.text(test.message).show();
           isValid = false;
-          console.log('INFO: Found an Input Error')
           break;
         }
       }
