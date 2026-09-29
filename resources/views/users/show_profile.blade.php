@@ -12,12 +12,12 @@ $products = Produk-produk milik user tersebut
 <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-[73vh] bg-brand-secondary">
   {{-- Profile Card --}}
   <div class="fade-in-effect bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 mb-8">
-    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+    <div class="flex flex-col md:flex-row items-center gap-6">
       <div class="w-24 h-24 bg-slate-100 rounded-full overflow-hidden border-4 border-brand-accent shrink-0 shadow-md">
         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ urlencode($user->name) }}" alt="Avatar"
           class="w-full h-full object-cover">
       </div>
-      <div class="text-center md:text-left grow">
+      <div class="text-left grow">
         <div class="flex justify-between items-center gap-5">
           <div>
             <h1 class="text-2xl font-display font-bold text-brand-main mb-1">{{ $user->name }}</h1>
@@ -26,7 +26,8 @@ $products = Produk-produk milik user tersebut
           @auth
             @if(auth()->id() === $user->id)
               <a href="{{ route('users.edit_profile', ['id' => $user->id]) }}" class="btn btn-primary py-2! px-4! text-sm gap-1">
-                <i class="fa-solid fa-pen"></i> Edit
+                <i class="fa-solid fa-pen mr-3"></i> 
+                Edit Profile
               </a>
             @endif
           @endauth
@@ -73,7 +74,8 @@ $products = Produk-produk milik user tersebut
     @auth
       @if ($user->id === auth()->user()->id)
         <a href="{{ route('product.create') }}" class="btn btn-primary py-2! px-4! text-sm gap-1">
-          <i class="fa-solid fa-plus"></i> Add New Product
+          <i class="fa-solid fa-plus mr-3"></i> 
+          Add New Product
         </a>
       @endif
     @endauth

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -15,18 +13,30 @@ class UserController extends Controller
       'name'        => ['required', 'string', 'max:255'],
       'nim'         => ['required', 'string', 'size:15'],
       'major'       => ['required'],
-      'email'       => ['required', 'string', 'email'],
+      'email'       => ['required', 'string', 'email', 'ends_with:@webmail.umm.ac.id'],
       'whatsapp_no' => ['required', 'string', 'min:10', 'max:15'],
       'role'        => ['string', 'max:10'],
       'password'    => ['required', 'string', 'min:5', 'confirmed'],
     ]);
 
     if (User::where('nim', $request->nim)->exists()) {
-      return redirect()->route('register')->with('toast_error', "The NIM you've inputted is already registered.");
+      return redirect()
+        ->route('register')
+        ->with(
+            "toast_error", 
+            "The NIM you've inputted is already registered."
+          );
     } else if (User::where('email', $request->email)->exists()) {
-      return redirect()->route('register')->with('toast_error', "The Email you've inputted is already registered.");
+      return redirect()
+        ->route('register')
+        ->with(
+            "toast_error", 
+            "The Email you've inputted is already registered."
+          );
     }
 
+    // Set role default menjadi admin
+    $validation['role'] = 'admin';
     // Enkripsi Password
     $validation['password'] = Hash::make($validation['password']);
     // Simpan user ke database
@@ -37,20 +47,29 @@ class UserController extends Controller
     $user->sendEmailVerificationNotification();
 
     // Redirect ke halaman instruksi verifikasi email
-    return redirect()->route('verification.notice')
-      ->with('toast_success', 'Akun berhasil dibuat! Cek inbox email kampus Anda untuk verifikasi.');
+    return redirect()
+      ->route('verification.notice')
+      ->with(
+          'toast_success', 
+          'Akun berhasil dibuat! Cek inbox email kampus Anda untuk verifikasi.'
+        );
   }
 
   public function login(Request $request) {
     $validation = $request->validate([
-      'email' => ['required', 'string', 'email'],
+      'email' => ['required', 'string', 'email', 'ends_with:@webmail.umm.ac.id'],
       'password' => ['required', 'string', 'min:5']
     ]);
     
     // Check if User with the current inputted email exists
     $user = User::where('email', $request->email)->first();
     if(!$user) {
-      return redirect()->route('login')->with('toast_error', 'The Email you\'ve inputted is not registered.');
+      return redirect()
+        ->route('login')
+        ->with(
+            "toast_error", 
+            "The Email you\'ve inputted is not registered."
+          );
     }
 
     // Check if the User password is correct
@@ -59,15 +78,29 @@ class UserController extends Controller
 
       // Jika email belum terverifikasi, arahkan ke halaman verifikasi
       if (!auth()->user()->hasVerifiedEmail()) {
-        return redirect()->route('verification.notice')
-          ->with('toast_error', 'Email Anda belum diverifikasi. Cek inbox email kampus Anda.');
+        return redirect()
+          ->route('verification.notice')
+          ->with(
+              'toast_error', 
+              'Email Anda belum diverifikasi. Cek inbox email kampus Anda.'
+            );
       }
 
-      return redirect()->route('product.index', ['view_type' => 'home'])->with('toast_success', 'Welcome back! ' . $user->name . '!');
+      return redirect()
+        ->route('product.index', ['view_type' => 'home'])
+        ->with(
+            "toast_success", 
+            "Welcome back! " . $user->name . "!"
+          );
     }
 
     // Default return, if the User password is wrong
-    return redirect()->route('login')->with('toast_error', "The password you've inputted is wrong.");
+    return redirect()
+      ->route('login')
+      ->with(
+          "toast_error", 
+          "The password you've inputted is wrong."
+        );
   }
 
   public function logout(Request $request)
@@ -85,19 +118,23 @@ class UserController extends Controller
 
   public function profile($id = null)
   { 
-      if ($id) {
-          $user = User::findOrFail($id);
-      } else {
-          $user = auth()->user();
-      }
-      
-      if (!$user) {
-          return redirect()->route('login')->with('toast_error', 'Silakan login terlebih dahulu untuk melihat profil.');
-      }
+    if ($id) {
+      $user = User::findOrFail($id);
+    } else {
+      $user = auth()->user();
+    }
+    
+    if (!$user) {
+      return redirect()
+        ->route('login')
+        ->with(
+            'toast_error', 
+            'Silakan login terlebih dahulu untuk melihat profil.'
+          );
+    }
 
-      $products = $user->products()->orderBy('id', 'desc')->paginate(12);
-
-      return view('users.show_profile', compact('user', 'products'));
+    $products = $user->products()->orderBy('id', 'desc')->paginate(12);
+    return view('users.show_profile', compact('user', 'products'));
   }
 
   public function editProfile($id) {
@@ -122,21 +159,31 @@ class UserController extends Controller
       'name'        => ['required', 'string', 'max:255'],
       'nim'         => ['required', 'string', 'size:15'],
       'major'       => ['required'],
-      'email'       => ['required', 'string', 'email'],
+      'email'       => ['required', 'string', 'email', 'ends_with:@webmail.umm.ac.id'],
       'whatsapp_no' => ['required', 'string', 'min:10', 'max:15'],
     ]);
 
     if (User::where('nim', $request->nim)->exists() && $user->nim !== $request->nim) {
-      return redirect()->route('users.edit_profile', $id)->with('toast_error', "The NIM you've inputted is already registered.");
-    } else if (User::where('email', $request->email)->exists() && $user->email !== $request->email) {
-      return redirect()->route('users.edit_profile', $id)->with('toast_error', "The Email you've inputted is already registered.");
+      return redirect()
+        ->route('users.edit_profile', $id)
+        ->with(
+            'toast_error', 
+            "The NIM you've inputted is already registered."
+          );
+    } 
+    else if (User::where('email', $request->email)->exists() && $user->email !== $request->email) {
+      return redirect()
+        ->route('users.edit_profile', $id)
+        ->with(
+            'toast_error', 
+            "The Email you've inputted is already registered."
+          );
     }
 
     // Deteksi apakah email berubah
     $emailChanged = $user->email !== $validation['email'];
-
+    // Simpan data profil + reset verifikasi email
     if ($emailChanged) {
-      // Simpan data profil + reset verifikasi email
       $user->update([
         'name'             => $validation['name'],
         'nim'              => $validation['nim'],
@@ -145,13 +192,15 @@ class UserController extends Controller
         'whatsapp_no'      => $validation['whatsapp_no'],
         'email_verified_at' => null, // Reset status verifikasi
       ]);
-
       // Kirim link verifikasi ke email baru
       $user->sendEmailVerificationNotification();
-
       // Redirect ke halaman verifikasi dengan pesan peringatan
-      return redirect()->route('verification.notice')
-        ->with('toast_error', 'Email Anda telah diubah. Silakan verifikasi email baru Anda (' . $validation['email'] . ') untuk melanjutkan.');
+      return redirect()
+        ->route('verification.notice')
+        ->with(
+            'toast_error', 
+            'Email Anda telah diubah. Silakan verifikasi email baru Anda (' . $validation['email'] . ') untuk melanjutkan.'
+          );
     }
 
     // Email tidak berubah — update profil biasa
@@ -163,6 +212,11 @@ class UserController extends Controller
       'whatsapp_no' => $validation['whatsapp_no'],
     ]);
 
-    return redirect()->route('users.profile', $id)->with('toast_success', 'Profil berhasil diperbarui!');
+    return redirect()
+      ->route('users.profile', $id)
+      ->with(
+          'toast_success', 
+          'Profil berhasil diperbarui!'
+        );
   }
 }

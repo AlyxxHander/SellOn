@@ -1,4 +1,4 @@
-<footer class="invisible bg-brand-main text-brand-muted py-8 mt-12 border-t border-slate-800">
+<footer class="bg-brand-main text-brand-muted py-8 mt-12 border-t border-slate-800">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start justify-between gap-y-10 md:gap-x-20 text-md">
     <div class="w-full gap-y-7 flex flex-col items-start">
       <a href="{{ route('home') }}" class="font-display font-bold text-2xl text-white tracking-tight space-x-2">

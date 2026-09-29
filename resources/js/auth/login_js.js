@@ -1,43 +1,64 @@
 import { triggerToast } from '../utils';
 
-$(document).ready(function () {
-  // Event Delegation for Login Validation
-  $(document).on('submit', '#form-login', function (e) {
-    // Prevent default web reload (Make the error not be updated)
-    e.preventDefault();
+// Definisi Aturan Validasi
+const rules = [
+  {
+    input: '#email',
+    error: '#err-login-email',
+    tests: [
+      {
+        condition: (val) => val.length === 0,
+        message: 'UMM Email must not be Empty.'
+      },
+      {
+        condition: (val) => !val.endsWith('@webmail.umm.ac.id'),
+        message: 'Use UMM Email (@webmail.umm.ac.id).'
+      }
+    ]
+  },
+  {
+    input: '#password',
+    error: '#err-login-password',
+    tests: [
+      {
+        condition: (val) => val.length === 0,
+        message: 'Password must not be Empty.'
+      },
+      {
+        condition: (val) => val.length < 6,
+        message: 'Password must be at least 6 characters.'
+      }
+    ]
+  }
+];
 
-    const email = $('#email').val();
-    const pass = $('#password').val();
-    const UMMEmail = '@webmail.umm.ac.id';
+$(document).ready(function () {
+  $(document).on('submit', '#form-login', function (e) {
+    e.preventDefault();
     let isValid = true;
 
-    // Reset errors
+    // Reset status error di awal
     $('.input-field').removeClass('error');
-    $('[id^="err-"]').hide();
+    $('[id^="err-"]').hide().text('');
 
-    // Validasi email UMM
-    if (email.length === 0) {
-      $('#err-login-email').text('UMM Email must not be Empty.');
-      isValid = false;
-    } else if (!email.includes(UMMEmail)) {
-      $('#err-login-email').text('Use UMM Email (' + UMMEmail + ').');
-      isValid = false;
-    }
+    // Iterasi dan Eksekusi Validasi
+    rules.forEach((rule) => {
+      const $input = $(rule.input);
+      const $error = $(rule.error);
+      const value = ($input.val() || '').trim();
 
-    if (pass.length === 0) {
-      $('#err-login-password').text('Password must not be Empty.');
-      isValid = false;
-    } else if (pass.length < 5) {
-      $('#err-login-password').text('Password must be at least 5 characters.');
-      isValid = false;
-    }
+      for (const test of rule.tests) {
+        // Evaluasi kondisi error
+        if (test.condition(value)) {
+          $input.addClass('error');
+          $error.text(test.message).show();
+          isValid = false;
+          break;
+        }
+      }
+    });
 
     if (!isValid) {
-      $('#email').addClass('error');
-      $('#password').addClass('error');
-      $('#err-login-email').show();
-      $('#err-login-password').show();
-
       triggerToast('toast_error', 'Please check your login data.');
     } else {
       this.submit();

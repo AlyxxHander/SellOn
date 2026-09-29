@@ -91,17 +91,16 @@ class ProductController extends Controller
     $validation = $request->validate([
       'name' => ['required', 'string', 'max:255'],
       'description' => ['required', 'string', 'max:500'],
-      'price' => ['required', 'numeric', 'min:0'],
+      'price' => ['required', 'numeric', 'min:10000', 'max:1000000'],
+      'stock' => ['required', 'numeric', 'min:0'],
       'category' => ['required', 'string'],
-      'stock' => ['nullable', 'numeric', 'min:0'],
-      'condition' => ['nullable', 'string'],
+      'condition' => ['required', 'string'],
       'image_urls' => ['required', 'array', 'min:1', 'max:6'],
       'image_urls.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:5120'],
       'user_id' => ['required', 'exists:users,id'],
     ]);
 
     $validation['condition'] = $validation['condition'] ?? '-';
-
     // For 'Service' category, stock is not applicable — set to null explicitly
     if ($validation['category'] === 'Service') {
       $validation['stock'] = null;
@@ -113,7 +112,6 @@ class ProductController extends Controller
     }
 
     $product = Product::create($validation);
-
     if ($request->hasFile('image_urls')) {
       foreach($request->file('image_urls') as $file) {
          $path = $file->store('products', 'public');
@@ -121,7 +119,8 @@ class ProductController extends Controller
       }
     }
 
-    return redirect()->route('product.index', ['view_type' => 'home']);
+    return redirect()
+      ->route('product.index', ['view_type' => 'home']);
   }
 
   // Show the data to User in the detail form
