@@ -255,15 +255,15 @@ textarea.input-field {
 }
 
 .toast.success {
-  background-color: #10815b;
+  background-color: #5bc577;
 }
 
 .toast.error {
-  background-color: #a92525;
+  background-color: #cd5555;
 }
 
 .toast.info {
-  background-color: #6366F1;
+  background-color: #5b8ad4;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
@@ -309,7 +309,8 @@ textarea.input-field {
 }
 
 #mobile-menu.nav-open {
-  max-height: 600px; /* Dynamic height limit */
+  max-height: 600px;
+  /* Dynamic height limit */
   opacity: 1;
 }
 

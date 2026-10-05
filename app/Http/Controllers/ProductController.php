@@ -59,7 +59,7 @@ class ProductController extends Controller
       
       $query = clone $baseQuery;
       if ($request->has('filter') && $request->filter != 'All') {
-          $query->where('category', $request->filter);
+        $query->where('category', $request->filter);
       }
       $query = $this->applySort($query, $request);
       
@@ -76,7 +76,7 @@ class ProductController extends Controller
       
       $query = clone $baseQuery;
       if ($request->has('filter') && $request->filter != 'All') {
-          $query->where('category', $request->filter);
+        $query->where('category', $request->filter);
       }
       $query = $this->applySort($query, $request);
       
@@ -180,30 +180,35 @@ class ProductController extends Controller
     ]);
 
     if ($request->has('deleted_images')) {
-        foreach($request->deleted_images as $imageId) {
-            $image = $product->images()->find($imageId);
-            if ($image) {
-                Storage::disk('public')->delete($image->image_url);
-                $image->delete();
-            }
+      foreach($request->deleted_images as $imageId) {
+        $image = $product->images()->find($imageId);
+        if ($image) {
+          Storage::disk('public')->delete($image->image_url);
+          $image->delete();
         }
+      }
     }
 
     if ($request->hasFile('new_image_urls')) {
-        foreach($request->file('new_image_urls') as $file) {
-            $path = $file->store('products', 'public');
-            $product->images()->create(['image_url' => $path]);
-        }
+      foreach($request->file('new_image_urls') as $file) {
+        $path = $file->store('products', 'public');
+        $product->images()->create(['image_url' => $path]);
+      }
     }
 
     $firstImage = $product->images()->orderBy('id')->first();
     if ($firstImage) {
-        $product->update(['image_url' => $firstImage->image_url]);
+      $product->update(['image_url' => $firstImage->image_url]);
     } else {
-        $product->update(['image_url' => null]);
+      $product->update(['image_url' => null]);
     }
 
-    return redirect()->route('users.my-products')->with('toast_success', 'Product updated successfully!');
+    return redirect()
+      ->route('users.my-products')
+      ->with(
+        'toast_success', 
+        'Product updated successfully!'
+      );
   }
 
   // Delete the Product data based on the User deleted Product when the Product is being submitted
@@ -211,10 +216,15 @@ class ProductController extends Controller
     $product = Product::findOrFail($id);
 
     if ($product->image) {
-        Storage::disk('public')->delete('products/' . $product->image);
+      Storage::disk('public')->delete('products/' . $product->image);
     }
     $product->delete();
 
-    return redirect()->route('users.my-products')->with('toast_success', 'Product deleted successfully!');
+    return redirect()
+      ->route('users.my-products')
+      ->with(
+        'toast_success', 
+        'Product deleted successfully!'
+      );
   }
 }

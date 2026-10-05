@@ -82,7 +82,7 @@ class UserController extends Controller
           ->route('verification.notice')
           ->with(
               'toast_error', 
-              'Email Anda belum diverifikasi. Cek inbox email kampus Anda.'
+              'Your email has not been verified. Please check your campus email inbox.'
             );
       }
 
@@ -105,14 +105,13 @@ class UserController extends Controller
 
   public function logout(Request $request)
   {
-      // 1. Proses logout dari guard
+      // Proses logout dari guard
       auth()->guard('web')->logout();
-      // 2. Hapus session agar tidak bisa digunakan lagi
+      // Hapus session agar tidak bisa digunakan lagi
       $request->session()->invalidate();
-      // 3. Buat ulang token CSRF baru untuk keamanan
+      // Buat ulang token CSRF baru untuk keamanan
       $request->session()->regenerateToken();
-
-      // 4. Redirect ke halaman awal atau login
+      // Redirect ke halaman awal atau login
       return redirect()->route('login');
   }
 
@@ -184,6 +183,9 @@ class UserController extends Controller
     $emailChanged = $user->email !== $validation['email'];
     // Simpan data profil + reset verifikasi email
     if ($emailChanged) {
+      echo("Email Changed? " . $emailChanged);
+      
+      $user->email_verified_at = null;
       $user->update([
         'name'             => $validation['name'],
         'nim'              => $validation['nim'],
@@ -192,18 +194,22 @@ class UserController extends Controller
         'whatsapp_no'      => $validation['whatsapp_no'],
         'email_verified_at' => null, // Reset status verifikasi
       ]);
-      // Kirim link verifikasi ke email baru
-      $user->sendEmailVerificationNotification();
-      // Redirect ke halaman verifikasi dengan pesan peringatan
+      // set email_verified_at = null
+      $user->markEmailAsUnverified();
+      // Save Profile Changes
+      $user->save();
+      // Send Email Verification Notification
+      // $user->sendEmailVerificationNotification();
+      // Redirect to Verification Notice page with warning message
       return redirect()
         ->route('verification.notice')
         ->with(
-            'toast_error', 
+            'toast_info', 
             'Email Anda telah diubah. Silakan verifikasi email baru Anda (' . $validation['email'] . ') untuk melanjutkan.'
           );
     }
 
-    // Email tidak berubah — update profil biasa
+    // Email not changed - update profile normally
     $user->update([
       'name'        => $validation['name'],
       'nim'         => $validation['nim'],
