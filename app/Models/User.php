@@ -25,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
       'major',
       'email',
       'whatsapp_no',
+      'profile_image',
       'role',
       'password',
     ];
@@ -53,6 +54,18 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Accessor for avatar: Get the image from storage if available,
+     * or fallback automatically to DiceBear if empty.
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->profile_image) {
+            return asset('storage/' . $this->profile_image);
+        }
+        return 'https://api.dicebear.com/7.x/avataaars/svg?seed=' . urlencode($this->name);
+    }
+
+    /**
      * Override the default email verification notification
      */
     public function sendEmailVerificationNotification(): void
@@ -78,10 +91,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Favorite::class);
     }
 
-    // Tambahkan di dalam class User di app/Models/User.php:
+    // Add in class User in app/Models/User.php:
     public function comments()
     {
         return $this->hasMany(ProductComment::class);
     }
-
 }

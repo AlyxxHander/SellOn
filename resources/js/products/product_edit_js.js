@@ -2,7 +2,7 @@ import { triggerToast } from '../utils';
 
 $(document).ready(function () {
 
-  // --- 1. Inisialisasi: sync visibility section berdasarkan kategori yang sudah dipilih ---
+  // Initialize: sync visibility section based on selected category
   function syncSectionsToCategory() {
     const cat = $('#category').val();
     if (cat === 'Preloved') {
@@ -16,9 +16,9 @@ $(document).ready(function () {
       $('#condition-section').hide();
     }
   }
-  syncSectionsToCategory(); // Jalankan saat halaman pertama kali load
+  syncSectionsToCategory(); // Run when page first load
 
-  // --- 2. Update visibility saat kategori diubah ---
+  // Update visibility when category changed
   $(document).on('change', '#category', function () {
     syncSectionsToCategory();
     $('input[name="condition"]').prop('checked', false);
@@ -36,22 +36,24 @@ $(document).ready(function () {
     }
   };
 
-  // Jalankan saat halaman pertama load
+  // Run when page first load
   if ($('#add-image-button').length) {
     window.updateAddButtonVisibility();
   }
 
-  // Jalankan juga setiap kali Livewire SPA navigasi (back/forward)
+  // Run also every time Livewire SPA navigation (back/forward)
   document.addEventListener('livewire:navigated', function () {
     if ($('#add-image-button').length) {
       window.updateAddButtonVisibility();
     }
   });
 
+  // Trigger file input when add image button is clicked
   $(document).on('click', '#add-image-button', function () {
     $('#input-file-cursor').click();
   });
 
+  // Handle file input change
   $(document).on('change', '.dynamic-file-input', function (e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -121,7 +123,7 @@ $(document).ready(function () {
   $(document).on('submit', '#form-product', function (e) {
     let isValid = true;
 
-    // Validasi gambar
+    // Validation for Product Image
     let currentImages = $('.existing-image').length + $('.new-image').length;
     if (currentImages === 0) {
       e.preventDefault();
@@ -130,7 +132,28 @@ $(document).ready(function () {
       return false;
     }
 
-    // Validasi stock hanya jika section-nya visible
+    // Validation for price range
+    const priceVal = parseInt($('#price').val(), 10);
+    if (isNaN(priceVal) || priceVal < 10000 || priceVal > 1000000) {
+      e.preventDefault();
+      $('#price').addClass('error').siblings('.err-msg').text('Harga harus antara Rp 10.000 dan Rp 1.000.000').show();
+      triggerToast('toast_error', 'Harga harus antara Rp 10.000 dan Rp 1.000.000');
+      isValid = false;
+    }
+
+    // Validation for stock range if visible
+    if ($('#stock-section').is(':visible')) {
+      const stockVal = parseInt($('#stock').val(), 10);
+      if (isNaN(stockVal) || stockVal < 1 || stockVal > 999) {
+        e.preventDefault();
+        $('#stock').addClass('error').siblings('.err-msg').text('Stok harus antara 1 dan 999').show();
+        triggerToast('toast_error', 'Stok harus antara 1 dan 999');
+        isValid = false;
+      }
+    }
+
+
+    // Validation for stock only if section-nya visible
     if ($('#stock-section').is(':visible')) {
       if ($('#stock').val() === '' || $('#stock').val() === null) {
         e.preventDefault();
@@ -140,7 +163,7 @@ $(document).ready(function () {
       }
     }
 
-    // Validasi condition hanya jika Preloved dan section visible
+    // Validation for condition only if Preloved and section visible
     if ($('#category').val() === 'Preloved' && $('#condition-section').is(':visible')) {
       if (!$('input[name="condition"]:checked').val()) {
         e.preventDefault();
@@ -150,6 +173,55 @@ $(document).ready(function () {
       }
     }
 
+    // Input Restriction for Price & Stock
+    $(document).on('input', '#price', function () {
+      this.value = this.value.replace(/[^0-9]/g, '');
+      if (this.value.length > 1 && this.value.startsWith('0')) {
+        this.value = parseInt(this.value, 10) || '';
+      }
+      if (this.value !== '') {
+        const val = parseInt(this.value, 10);
+        if (val > 1000000) {
+          this.value = 1000000;
+        }
+      }
+    });
+
+    // Input Restriction for Stock
+    $(document).on('input', '#stock', function () {
+      this.value = this.value.replace(/[^0-9]/g, '');
+      if (this.value.length > 1 && this.value.startsWith('0')) {
+        this.value = parseInt(this.value, 10) || '';
+      }
+      if (this.value !== '') {
+        const val = parseInt(this.value, 10);
+        if (val > 999) {
+          this.value = 999;
+        }
+      }
+    });
+
+    // Blur Input Restriction for Price
+    $(document).on('blur', '#price', function () {
+      if (this.value !== '') {
+        const val = parseInt(this.value, 10);
+        if (val < 10000) {
+          this.value = 10000;
+        }
+      }
+    });
+
+    // Blur Input Restriction for Stock
+    $(document).on('blur', '#stock', function () {
+      if (this.value !== '') {
+        const val = parseInt(this.value, 10);
+        if (val < 1) {
+          this.value = 1;
+        }
+      }
+    });
+
+    // Prevent submit if invalid
     if (!isValid) return false;
 
     // Clean empty input

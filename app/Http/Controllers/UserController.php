@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -150,79 +151,58 @@ class UserController extends Controller
   public function updateProfile(Request $request, $id) {
     $user = User::findOrFail($id);
 
-    // Hanya pemilik profil yang boleh mengupdate
     if (auth()->id() !== $user->id) {
       abort(403, 'Anda tidak memiliki akses untuk mengubah profil ini.');
     }
+
     $validation = $request->validate([
-      'name'        => ['required', 'string', 'max:255'],
-      'nim'         => ['required', 'string', 'size:15'],
-      'major'       => ['required'],
-      'email'       => ['required', 'string', 'email', 'ends_with:@webmail.umm.ac.id'],
-      'whatsapp_no' => ['required', 'string', 'min:10', 'max:15'],
+      'name'          => ['required', 'string', 'max:255'],
+      'nim'           => ['required', 'string', 'size:15'],
+      'major'         => ['required'],
+      'email'         => ['required', 'string', 'email', 'ends_with:@webmail.umm.ac.id'],
+      'whatsapp_no'   => ['required', 'string', 'min:10', 'max:15'],
+      'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'], // Maksimal 2MB
     ]);
 
     if (User::where('nim', $request->nim)->exists() && $user->nim !== $request->nim) {
-      return redirect()
-        ->route('users.edit_profile', $id)
-        ->with(
-            'toast_error', 
-            "The NIM you've inputted is already registered."
-          );
-    } 
-    else if (User::where('email', $request->email)->exists() && $user->email !== $request->email) {
-      return redirect()
-        ->route('users.edit_profile', $id)
-        ->with(
-            'toast_error', 
-            "The Email you've inputted is already registered."
-          );
+      return redirect()->route('users.edit_profile', $id)->with('toast_error', "The NIM you've inputted is already registered.");
+    } else if (User::where('email', $request->email)->exists() && $user->email !== $request->email) {
+      return redirect()->route('users.edit_profile', $id)->with('toast_error', "The Email you've inputted is already registered.");
     }
 
-    // Deteksi apakah email berubah
+    // Handle Upload Foto Profil
+    if ($request->hasFile('profile_image')) {
+      // Hapus foto lama jika ada
+      if ($user->profile_image && Storage::disk('public')->exists($user->profile_image)) {
+        Storage::disk('public')->delete($user->profile_image);
+      }
+      $validation['profile_image'] = $request->file('profile_image')->store('profiles', 'public');
+    }
+
     $emailChanged = $user->email !== $validation['email'];
-    // Simpan data profil + reset verifikasi email
-    if ($emailChanged) {
-      echo("Email Changed? " . $emailChanged);
-      
-      $user->email_verified_at = null;
-      $user->update([
-        'name'             => $validation['name'],
-        'nim'              => $validation['nim'],
-        'major'            => $validation['major'],
-        'email'            => $validation['email'],
-        'whatsapp_no'      => $validation['whatsapp_no'],
-        'email_verified_at' => null, // Reset status verifikasi
-      ]);
-      // set email_verified_at = null
-      $user->markEmailAsUnverified();
-      // Save Profile Changes
-      $user->save();
-      // Send Email Verification Notification
-      $user->sendEmailVerificationNotification();
-      // Redirect to Verification Notice page with warning message
-      return redirect()
-        ->route('verification.notice')
-        ->with(
-            'toast_info', 
-            'Email Anda telah diubah. Silakan verifikasi email baru Anda (' . $validation['email'] . ') untuk melanjutkan.'
-          );
+
+    $dataToUpdate = [
+      'name'          => $validation['name'],
+      'nim'           => $validation['nim'],
+      'major'         => $validation['major'],
+      'email'         => $validation['email'],
+      'whatsapp_no'   => $validation['whatsapp_no'],
+    ];
+
+    if (isset($validation['profile_image'])) {
+      $dataToUpdate['profile_image'] = $validation['profile_image'];
     }
 
-    // Email not changed - update profile normally
-    $user->update([
-      'name'        => $validation['name'],
-      'nim'         => $validation['nim'],
-      'major'       => $validation['major'],
-      'email'       => $validation['email'],
-      'whatsapp_no' => $validation['whatsapp_no'],
-    ]);
+    if ($emailChanged) {
+      $dataToUpdate['email_verified_at'] = null;
+      $user->update($dataToUpdate);
+      $user->markEmailAsUnverified();
+      $user->sendEmailVerificationNotification();
 
-    return redirect()
-      ->route('users.profile', $id)
-      ->with(
-          'toast_success', 
-          'Profil berhasil diperbarui!'
-        );
+      return redirect()->route('verification.notice')->with('toast_info', 'Email Anda telah diubah. Silakan verifikasi email baru Anda (' . $validation['email'] . ') untuk melanjutkan.');
+    }
+
+    $user->update($dataToUpdate);
+    return redirect()->route('users.profile', $id)->with('toast_success', 'Profil berhasil diperbarui!');
   }
 }

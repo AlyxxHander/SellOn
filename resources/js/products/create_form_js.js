@@ -93,7 +93,23 @@ $(document).ready(function () {
       }
     });
 
-    // Validasi stock hanya jika section-nya visible
+    // Price range validation (10.000 - 1.000.000)
+    const priceVal = parseInt($('#price').val(), 10);
+    if (isNaN(priceVal) || priceVal < 10000 || priceVal > 1000000) {
+      $('#price').addClass('error').siblings('.err-msg').text('Price must be between Rp 10.000 and Rp 1.000.000').show();
+      isValid = false;
+    }
+
+    // Validasi range stock (1 - 999) jika section stock terlihat
+    if ($('#stock-section').is(':visible')) {
+      const stockVal = parseInt($('#stock').val(), 10);
+      if (isNaN(stockVal) || stockVal < 1 || stockVal > 999) {
+        $('#stock').addClass('error').siblings('.err-msg').text('Stock must be between 1 and 999').show();
+        isValid = false;
+      }
+    }
+
+    // Validate stock only if stock section is visible
     if ($('#stock-section').is(':visible')) {
       if ($('#stock').val() === '' || $('#stock').val() === null) {
         $('#stock').addClass('error').siblings('.err-msg').show();
@@ -101,7 +117,7 @@ $(document).ready(function () {
       }
     }
 
-    // Validasi Khusus Preloved (Harus pilih radio) hanya jika section visible
+    // Validate condition only if condition section is visible
     if ($('#category').val() === 'Preloved' && $('#condition-section').is(':visible')) {
       if (!$('input[name="condition"]:checked').val()) {
         $('#err-condition').show();
@@ -111,10 +127,10 @@ $(document).ready(function () {
 
     // Final Eksekusi
     if (isValid) {
-      // Di aplikasi nyata, kumpulkan data di sini lewat FormData/AJAX
+      // Collect all data here via FormData/AJAX
       triggerToast('toast_success', 'Product has been successfully saved!');
 
-      // Simulasi redirect / reset
+      // Simulate redirect / reset
       setTimeout(() => {
         e.target.submit();
       }, 1000);
@@ -123,8 +139,52 @@ $(document).ready(function () {
     }
   });
 
-  // Restrict input price and stock to numbers only
-  $(document).on('input', '#price, #stock', function () {
+  // Validate price and stock (Only numbers, remove leading zero, and set max value instantly)
+  $(document).on('input', '#price', function () {
     this.value = this.value.replace(/[^0-9]/g, '');
+    if (this.value.length > 1 && this.value.startsWith('0')) {
+      this.value = parseInt(this.value, 10) || '';
+    }
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val > 1000000) {
+        this.value = 1000000;
+      }
+    }
   });
+
+  // Validate stock (Only numbers, remove leading zero, and set max value instantly)
+  $(document).on('input', '#stock', function () {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    if (this.value.length > 1 && this.value.startsWith('0')) {
+      this.value = parseInt(this.value, 10) || '';
+    }
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val > 999) {
+        this.value = 999;
+      }
+    }
+  });
+
+  // Validate price and stock (Only numbers, remove leading zero, and set min value instantly)
+  $(document).on('blur', '#price', function () {
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val < 10000) {
+        this.value = 10000;
+      }
+    }
+  });
+
+  // Validate stock (Only numbers, remove leading zero, and set min value instantly)
+  $(document).on('blur', '#stock', function () {
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val < 1) {
+        this.value = 1;
+      }
+    }
+  });
+
 });

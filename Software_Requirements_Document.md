@@ -192,7 +192,7 @@ Berikut adalah kebutuhan fungsional utama untuk proyek **Sellon** berdasarkan fi
 | 5 | **Product Management** | - Admin dapat **menambah**, **mengedit**, dan **menghapus** produk.<br>- Setiap produk memiliki atribut: nama, deskripsi, foto (maks 2 MB), harga, kategori, dan status (tersedia / tidak tersedia).<br>- Sistem melakukan validasi (misalnya harga > 0, foto tidak melebihi ukuran). |
 | 6 | **Comment Management** | - Pengguna (Guest) dapat menulis komentar pada halaman detail produk.<br>- Komentar harus melewati sanitasi untuk mencegah XSS.<br>- Admin dapat menghapus komentar yang tidak pantas. |
 | 7 | **Filter and Sort System** | - Pengguna dapat memfilter produk berdasarkan kategori (preloved, food, beverage, service).<br>- Pengguna dapat mengurutkan hasil pencarian berdasarkan harga (naik/turun) atau tanggal penambahan). |
-| 8 | **Favorites System** | - Pengguna dapat menandai produk sebagai favorit.<br>- Daftar favorit disimpan per akun dan dapat diakses melalui halaman *Favorites*. |
+| 8 | **Favorites System** | - Pengguna dapat toggle produk sebagai favorit atau tidak.<br>- Daftar favorit disimpan per akun dan dapat diakses melalui halaman *Favorites*. |
 
 ## 4.2. Non-Fungsional Requirement
 
@@ -236,7 +236,7 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 | Product Management | Produk dapat ditambah, diedit, dihapus; validasi harga >0 dan foto ≤2 MB; perubahan tercermin di katalog. |
 | Comment Management | Komentar berhasil ditambahkan dan ditampilkan; admin dapat menghapus komentar tidak pantas. |
 | Filter and Sort System | Produk difilter sesuai kategori dan diurutkan sesuai pilihan (harga, tanggal) dengan hasil yang tepat. |
-| Favorites System | Produk ditandai sebagai favorit dan muncul di halaman Favorites pengguna. | 
+| Favorites System | Produk ditoggle on atau off menjadi favorit pengguna. | 
 
 ## 5.2. Negative Test Scenarios
 
@@ -244,14 +244,12 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 |---|---|---|
 | Login | Email atau password salah | Menampilkan pesan error “Kredensial tidak valid” dan tetap pada halaman login. |
 | Register | Email sudah terdaftar | Menampilkan pesan error “Email sudah digunakan” dan meminta pengguna menggunakan email lain. |
-| Forgot Password | Email tidak terdaftar | Menampilkan pesan error “Email tidak ditemukan” tanpa mengirim tautan reset. |
+| Forgot Password | Email tidak terdaftar | Menampilkan pesan error “The selected email is invalid.” tanpa mengirim tautan reset. |
 | Profile Management | Upload foto melebihi 2 MB | Menampilkan pesan error “Ukuran foto terlalu besar” dan menolak penyimpanan. |
 | Product Management | Harga ≤ 0 | Menampilkan pesan error “Harga harus lebih besar dari 0” dan menolak penyimpanan produk. |
 | Comment Management | Komentar mengandung script berbahaya | Menolak komentar dan menampilkan pesan error “Komentar tidak diperbolehkan”. |
 | Filter and Sort System | Hasil Filter kategori tidak ada | Menampilkan pesan “There is no product yet” dan menampilkan daftar kosong. |
 | Favorites System | Tombol favorit tidak ditampilkan, jika belum melakukan autentikasi | Tombol favorit tidak ditampilkan |
-
-
 
 # 6. Test Design Specification
 
@@ -263,7 +261,7 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 - RQ-005: Sistem harus memungkinkan manajemen produk termasuk CRUD produk dengan harga > 0.
 - RQ-006: Sistem harus memungkinkan komentar pada produk dengan sanitasi konten.
 - RQ-007: Sistem harus menyediakan filter dan sort produk berdasarkan kategori.
-- RQ-008: Sistem harus memungkinkan pengguna toggle on & off produk menjadi produk favorit atau tidak.
+- RQ-008: Sistem harus memungkinkan pengguna toggle produk menjadi produk favorit atau tidak.
 
 
 ## 6.2 Feature Sets
@@ -276,7 +274,7 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 | FS5 | Product Management | Pengguna dapat mengelola produk | High | RQ-005 |
 | FS6 | Comment Management | Pengguna dapat menulis komentar | Medium | RQ-006 |
 | FS7 | Filter and Sort System | Pengguna dapat memfilter dan mengurutkan produk | Medium | RQ-007 |
-| FS8 | Favorites System | Pengguna dapat menandai produk sebagai favorit | Low | RQ-008 |
+| FS8 | Favorites System | Pengguna dapat toggle produk sebagai favorit atau tidak | Low | RQ-008 |
 
 ## 6.3 Test Conditions
 | ID | Feature Set | Description | Priority | Traceability |
@@ -295,8 +293,7 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 | TC12 | FS6 | Tambah komentar melebihi batas panjang huruf maksimum | Medium | RQ-006 |
 | TC13 | FS7 | Filter produk berdasarkan kategori yang ada | Medium | RQ-007 |
 | TC14 | FS7 | Hasil Filter kategori tidak ada | Medium | RQ-007 |
-| TC15 | FS8 | Toggle on produk menjadi produk favorite | Low | RQ-008 |
-| TC16 | FS8 | Toggle off produk dari produk favorite | Low | RQ-008 |
+| TC15 | FS8 | Toggle on & off produk menjadi produk favorite | Low | RQ-008 |
 
 ## 6.4 Coverage Items
 | ID | Description | Related Test Condition | Priority | Traceability |
@@ -315,8 +312,7 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 | CI12 | Verifikasi sanitasi komentar berbahaya | TC12 | Medium | RQ-006 |
 | CI13 | Verifikasi filter produk berdasarkan kategori yang ada | TC13 | Medium | RQ-007 |
 | CI14 | Verifikasi penanganan filter kategori tidak ada | TC14 | Medium | RQ-007 |
-| CI15 | Verifikasi toggle on menjadi produk favorit baru | TC15 | Low | RQ-008 |
-| CI16 | Verifikasi toggle off dari produk favorit | TC16 | Low | RQ-008 |
+| CI15 | Verifikasi toggle on & off menjadi produk favorit baru | TC15 | Low | RQ-008 |
 
 ## 6.5 Test Traceability Matrix (TTM)
 
@@ -337,7 +333,6 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 | RQ-007 | FS7 | TC13 | CI13 |
 | RQ-007 | FS7 | TC14 | CI14 |
 | RQ-008 | FS8 | TC15 | CI15 |
-| RQ-008 | FS8 | TC16 | CI16 |
 
 ## 6.6 Test Design Technique Summary
 
@@ -357,6 +352,4 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 | TC12 | Security Testing (ST) | Verifikasi sanitasi komentar yang mengandung script berbahaya |
 | TC13 | Equivalence Partitioning (EP) | Verifikasi hasil filter produk berdasarkan kategori yang ada |
 | TC14 | Equivalence Partitioning (EP) | Verifikasi penanganan filter kategori tidak ada |
-| TC15 | Equivalence Partitioning (EP) | Verifikasi penambahan produk ke favorit yang belum ada |
-| TC16 | Equivalence Partitioning (EP) | Verifikasi penolakan duplikasi favorit | ada |
-| TC16 | Negative Path Testing | Verifikasi penolakan duplikasi favorit |
+| TC15 | Equivalence Partitioning (EP) | Verifikasi toggle on & off menjadi produk favorit baru |

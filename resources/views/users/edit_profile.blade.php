@@ -25,20 +25,55 @@ $user = Array variable about all the data inside 'User' table
           class="w-full h-full object-cover"
         >
       </div>
-      {{-- Profile Data Form --}}
-      <form id="form-profile" 
-        action="{{ route('users.update_profile', ['id' => $user->id]) }}" 
-        method="POST" 
-        enctype="multipart/form-data"
-        class="w-full"  
-      >
-        @csrf 
-        @method('PUT')
+          {{-- Profile Data Form --}}
+    <form id="form-profile" 
+      action="{{ route('users.update_profile', ['id' => $user->id]) }}" 
+      method="POST" 
+      enctype="multipart/form-data"
+      class="w-full flex flex-col items-center gap-8"  
+    >
+      @csrf 
+      @method('PUT')
+
+      {{-- Profile Image Section dengan Preview & Upload Trigger --}}
+      <div class="flex flex-col items-center gap-3">
+        <div class="relative group w-36 h-36 rounded-full overflow-hidden border-4 border-brand-accent shrink-0 shadow-md bg-slate-100">
+          <img 
+            id="avatar-preview"
+            src="{{ $user->avatar_url ?? ($user->profile_image ? asset('storage/' . $user->profile_image) : 'https://api.dicebear.com/7.x/avataaars/svg?seed=' . urlencode($user->name)) }}" 
+            alt="Avatar Preview"
+            class="w-full h-full object-cover"
+          >
+          {{-- Overlay saat hover --}}
+          <label for="profile_image" class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+            <i class="fa-solid fa-camera text-2xl mb-1"></i>
+            <span>Ganti Foto</span>
+          </label>
+        </div>
+
+        {{-- Input File Tersembunyi --}}
+        <input 
+          type="file" 
+          id="profile_image" 
+          name="profile_image" 
+          accept="image/png, image/jpeg, image/jpg, image/webp" 
+          class="hidden"
+        >
+
+        {{-- Tombol Pilih Foto --}}
+        <label for="profile_image" class="btn btn-secondary text-xs py-1.5 px-3 cursor-pointer flex items-center gap-2">
+          <i class="fa-solid fa-upload"></i> Pilih Foto Baru
+        </label>
+        <span id="err-profile-image" class="text-xs text-red-500 hidden"></span>
+      </div>
+
+      <div class="w-full">
         <div class="mb-6">
           <label class="block text-sm font-semibold text-brand-main mb-2">
             Full Name 
             <span class="text-red-500">*</span>
           </label>
+
           <input 
             type="text" 
             id="name" 

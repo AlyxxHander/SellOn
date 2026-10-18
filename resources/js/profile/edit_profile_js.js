@@ -111,4 +111,25 @@ $(document).ready(function () {
       this.submit();
     }
   });
+
+  // Live Preview Profile Image & Validasi Ukuran File (Maks 2MB)
+  $(document).on('change', '#profile_image', function (e) {
+    const file = e.target.files[0];
+    const maxSize = 2 * 1024 * 1024; // 2MB
+
+    if (file) {
+      if (file.size > maxSize) {
+        triggerToast('toast_error', 'Ukuran foto maksimal 2MB!');
+        $(this).val('');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        $('#avatar-preview').attr('src', event.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
 });

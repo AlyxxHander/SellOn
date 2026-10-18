@@ -14,8 +14,7 @@ $products = Produk-produk milik user tersebut
   <div class="fade-in-effect bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 mb-8">
     <div class="flex flex-col md:flex-row items-center gap-6">
       <div class="w-24 h-24 bg-slate-100 rounded-full overflow-hidden border-4 border-brand-accent shrink-0 shadow-md">
-        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ urlencode($user->name) }}" alt="Avatar"
-          class="w-full h-full object-cover">
+        <img src="{{ $user->avatar_url ?? ($user->profile_image ? asset('storage/' . $user->profile_image) : 'https://api.dicebear.com/7.x/avataaars/svg?seed=' . urlencode($user->name)) }}" alt="Avatar" class="w-full h-full object-cover">
       </div>
       <div class="text-left grow">
         <div class="flex justify-between items-center gap-5">
