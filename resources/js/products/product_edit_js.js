@@ -130,6 +130,26 @@ $(document).ready(function () {
       return false;
     }
 
+    // Validasi range harga
+    const priceVal = parseInt($('#price').val(), 10);
+    if (isNaN(priceVal) || priceVal < 10000 || priceVal > 1000000) {
+      e.preventDefault();
+      $('#price').addClass('error').siblings('.err-msg').text('Harga harus antara Rp 10.000 dan Rp 1.000.000').show();
+      triggerToast('toast_error', 'Harga harus antara Rp 10.000 dan Rp 1.000.000');
+      isValid = false;
+    }
+
+    // Validasi range stok jika terlihat
+    if ($('#stock-section').is(':visible')) {
+      const stockVal = parseInt($('#stock').val(), 10);
+      if (isNaN(stockVal) || stockVal < 1 || stockVal > 999) {
+        e.preventDefault();
+        $('#stock').addClass('error').siblings('.err-msg').text('Stok harus antara 1 dan 999').show();
+        triggerToast('toast_error', 'Stok harus antara 1 dan 999');
+        isValid = false;
+      }
+    }
+
     // Validasi stock hanya jika section-nya visible
     if ($('#stock-section').is(':visible')) {
       if ($('#stock').val() === '' || $('#stock').val() === null) {
@@ -155,4 +175,50 @@ $(document).ready(function () {
     // Clean empty input
     $('.dynamic-file-input').remove();
   });
+
+  // --- Pembatasan Ketikan Langsung untuk Price & Stock ---
+  $(document).on('input', '#price', function () {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    if (this.value.length > 1 && this.value.startsWith('0')) {
+      this.value = parseInt(this.value, 10) || '';
+    }
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val > 1000000) {
+        this.value = 1000000;
+      }
+    }
+  });
+
+  $(document).on('input', '#stock', function () {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    if (this.value.length > 1 && this.value.startsWith('0')) {
+      this.value = parseInt(this.value, 10) || '';
+    }
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val > 999) {
+        this.value = 999;
+      }
+    }
+  });
+
+  $(document).on('blur', '#price', function () {
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val < 10000) {
+        this.value = 10000;
+      }
+    }
+  });
+
+  $(document).on('blur', '#stock', function () {
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val < 1) {
+        this.value = 1;
+      }
+    }
+  });
+
 });

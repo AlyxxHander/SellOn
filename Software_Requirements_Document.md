@@ -287,8 +287,8 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 | TC4 | FS2 | Register dengan email sudah terdaftar | High | RQ-002 |
 | TC5 | FS3 | Forgot Password dengan email terdaftar | High | RQ-003 |
 | TC6 | FS3 | Forgot Password dengan email tidak terdaftar | High | RQ-003 |
-| TC7 | FS4 | Update profil dengan foto < 2 MB | Medium | RQ-004 |
-| TC8 | FS4 | Upload foto > 2 MB | Medium | RQ-004 |
+| TC7 | FS4 | Update profil dengan seluruh data yang wajib dimasukkan | Medium | RQ-004 |
+| TC8 | FS4 | Update profil dengan tidak memasukkan salah satu data yang wajib dimasukkan | Medium | RQ-004 |
 | TC9 | FS5 | Tambah produk dengan data valid | High | RQ-005 |
 | TC10 | FS5 | Simpan produk dengan harga ≤ 0 | High | RQ-005 |
 | TC11 | FS6 | Tambah komentar sesuai batas panjang huruf maksimum | Medium | RQ-006 |
@@ -307,8 +307,8 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 | CI4 | Verifikasi penolakan registrasi dengan email duplikat | TC4 | High | RQ-002 |
 | CI5 | Verifikasi proses reset password berhasil | TC5 | High | RQ-003 |
 | CI6 | Verifikasi penolakan reset password untuk email tidak terdaftar | TC6 | High | RQ-003 |
-| CI7 | Verifikasi update profil dan penyimpanan data | TC7 | Medium | RQ-004 |
-| CI8 | Verifikasi penolakan upload foto terlalu besar | TC8 | Medium | RQ-004 |
+| CI7 | Verifikasi Update profil dengan seluruh data yang wajib dimasukkan | TC7 | Medium | RQ-004 |
+| CI8 | Verifikasi update profil dengan tidak memasukkan salah satu data yang wajib dimasukkan | TC8 | Medium | RQ-004 |
 | CI9 | Verifikasi CRUD produk dengan data valid | TC9 | High | RQ-005 |
 | CI10 | Verifikasi validasi harga produk tidak boleh ≤ 0 | TC10 | High | RQ-005 |
 | CI11 | Verifikasi penambahan komentar yang bersih | TC11 | Medium | RQ-006 |

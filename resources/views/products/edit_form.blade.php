@@ -218,9 +218,7 @@ $product = Variable about the product being edited
           class="input-field resize-none"
           placeholder="Describe the product in detail, specifications, or any flaws if any..." maxlength="500"
           required
-        >
-          {{ old('description', $product->description) }}
-        </textarea>
+        >{{ old('description', $product->description) }}</textarea>
         <span class="text-xs text-red-500 hidden mt-1 err-msg">Deskripsi Produk harus diisi.</span>
       </div>
 

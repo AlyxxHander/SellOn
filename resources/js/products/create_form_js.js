@@ -93,6 +93,23 @@ $(document).ready(function () {
       }
     });
 
+    // Validasi range harga (10.000 - 1.000.000)
+    const priceVal = parseInt($('#price').val(), 10);
+    if (isNaN(priceVal) || priceVal < 10000 || priceVal > 1000000) {
+      $('#price').addClass('error').siblings('.err-msg').text('Harga harus antara Rp 10.000 dan Rp 1.000.000').show();
+      isValid = false;
+    }
+
+    // Validasi range stock (1 - 999) jika section stock terlihat
+    if ($('#stock-section').is(':visible')) {
+      const stockVal = parseInt($('#stock').val(), 10);
+      if (isNaN(stockVal) || stockVal < 1 || stockVal > 999) {
+        $('#stock').addClass('error').siblings('.err-msg').text('Stok harus antara 1 dan 999').show();
+        isValid = false;
+      }
+    }
+
+
     // Validasi stock hanya jika section-nya visible
     if ($('#stock-section').is(':visible')) {
       if ($('#stock').val() === '' || $('#stock').val() === null) {
@@ -123,8 +140,52 @@ $(document).ready(function () {
     }
   });
 
-  // Restrict input price and stock to numbers only
-  $(document).on('input', '#price, #stock', function () {
+  // --- Pembatasan Ketikan Langsung untuk Price & Stock ---
+
+  // 1. Validasi saat mengetik (Hanya angka, hilangkan leading zero, dan batasi MAKSIMUM secara instan)
+  $(document).on('input', '#price', function () {
     this.value = this.value.replace(/[^0-9]/g, '');
+    if (this.value.length > 1 && this.value.startsWith('0')) {
+      this.value = parseInt(this.value, 10) || '';
+    }
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val > 1000000) {
+        this.value = 1000000; // Otomatis clamp ke batas maksimal 1.000.000
+      }
+    }
   });
+
+  $(document).on('input', '#stock', function () {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    if (this.value.length > 1 && this.value.startsWith('0')) {
+      this.value = parseInt(this.value, 10) || '';
+    }
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val > 999) {
+        this.value = 999; // Otomatis clamp ke batas maksimal 999
+      }
+    }
+  });
+
+  // 2. Koreksi batas MINIMUM saat user selesai mengetik (blur event)
+  $(document).on('blur', '#price', function () {
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val < 10000) {
+        this.value = 10000; // Otomatis setel ke batas minimum 10.000
+      }
+    }
+  });
+
+  $(document).on('blur', '#stock', function () {
+    if (this.value !== '') {
+      const val = parseInt(this.value, 10);
+      if (val < 1) {
+        this.value = 1; // Otomatis setel ke batas minimum 1
+      }
+    }
+  });
+
 });
