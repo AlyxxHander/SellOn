@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\ProductCommentController;
 
 // ---------------------------------|| AUTH ROUTES ||---------------------------------
 // [ GET ] landing page (home)
@@ -107,3 +108,17 @@ Route::post('/favorite/toggle/{product_id}', [FavoriteController::class, 'toggle
 // [ GET ] my favorites (PROTECTED: login + email verified)
 Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('favorite.index')->middleware(['auth', 'verified']);
 
+
+
+// ---------------------------------|| COMMENT / REVIEW ROUTES ||---------------------------------
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Menyimpan ulasan & rating baru
+    Route::post('/products/{product_id}/comments', [ProductCommentController::class, 'store'])
+        ->name('product.comments.store')
+        ->whereNumber('product_id');
+
+    // Menghapus ulasan (dapat dilakukan oleh penjual produk atau pemilik ulasan)
+    Route::delete('/comments/{id}', [ProductCommentController::class, 'destroy'])
+        ->name('product.comments.destroy')
+        ->whereNumber('id');
+});

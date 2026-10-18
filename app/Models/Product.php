@@ -72,4 +72,23 @@ class Product extends Model
         // Gunakan domain aktif dari request saat ini (tidak terikat APP_URL)
         return request()->root() . '/uploads/' . $this->image_url;
     }
+
+    public function comments()
+    {
+        return $this->hasMany(ProductComment::class)->latest();
+    }
+    /**
+     * Menghitung rata-rata rating produk (dibulatkan 1 desimal)
+     */
+    public function getAverageRatingAttribute(): float
+    {
+        return round((float) $this->comments()->avg('rating'), 1);
+    }
+    /**
+     * Menghitung total ulasan produk
+     */
+    public function getTotalCommentsAttribute(): int
+    {
+        return $this->comments()->count();
+    }
 }

@@ -199,7 +199,7 @@ class UserController extends Controller
       // Save Profile Changes
       $user->save();
       // Send Email Verification Notification
-      // $user->sendEmailVerificationNotification();
+      $user->sendEmailVerificationNotification();
       // Redirect to Verification Notice page with warning message
       return redirect()
         ->route('verification.notice')

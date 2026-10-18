@@ -14,7 +14,7 @@ $product = Variable about detail of the product
     <span>›</span>
     <a href="{{ route('product.catalog') }}?filter={{ strtolower($product->category) }}" class="hover:text-brand-accent transition capitalize">Kategori {{ $product->category }}</a>
     <span>›</span>
-    <span class="text-brand-main truncate max-w-[200px]">{{ $product->name }}</span>
+    <span class="text-brand-main truncate max-w-50">{{ $product->name }}</span>
   </nav>
 
   @if(session('success'))
@@ -137,5 +137,7 @@ $product = Variable about detail of the product
       </div>
     </div>
   </div>
+
+  @include('products.partials._comments_section')
 </main>
 @endsection

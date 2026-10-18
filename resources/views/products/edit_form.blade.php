@@ -115,8 +115,10 @@ $product = Variable about the product being edited
               id="price" 
               name="price" 
               class="input-field pl-10" 
-              placeholder="0" 
-              min="0"
+              placeholder="Rp. 10.000 - Rp. 1.000.000" 
+              min="10000"
+              max="1000000"
+              step="10000"
               value="{{ old('price', $product->price) }}" 
               required
             >
@@ -136,11 +138,11 @@ $product = Variable about the product being edited
             id="stock" 
             name="stock" 
             class="input-field" 
-            placeholder="Rp. 10.000 - Rp. 1.000.000" 
+            placeholder="1 - 999" 
             value="{{ old('stock', $product->stock) }}"
-            min="10000" 
-            max="1000000"
-            step="10000"
+            min="1" 
+            max="999"
+            step="1"
             required
           >
         </div>

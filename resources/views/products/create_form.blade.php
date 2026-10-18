@@ -153,6 +153,8 @@
             class="input-field" 
             placeholder="1" 
             min="1"
+            max="999"
+            step="1"
           >
         </div>
         <span class="text-xs text-red-500 hidden mt-1 err-msg"></span>

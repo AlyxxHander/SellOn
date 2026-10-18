@@ -124,10 +124,14 @@ class ProductController extends Controller
   }
 
   // Show the data to User in the detail form
-  public function show($id) {
-    $product = Product::findOrFail($id);
+   public function show($id) {
+    $product = Product::with(['user', 'images', 'comments.user'])->findOrFail($id);
     return view('products.show_detail', compact('product'));
   }
+  // public function show($id) {
+  //   $product = Product::findOrFail($id);
+  //   return view('products.show_detail', compact('product'));
+  // }
 
   // Show the data to User in the edit form
   public function edit($id) {

@@ -54,7 +54,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Override the default email verification notification
-     * to use a custom Bahasa Indonesia template.
      */
     public function sendEmailVerificationNotification(): void
     {
@@ -78,4 +77,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Favorite::class);
     }
+
+    // Tambahkan di dalam class User di app/Models/User.php:
+    public function comments()
+    {
+        return $this->hasMany(ProductComment::class);
+    }
+
 }

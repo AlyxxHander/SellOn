@@ -9,7 +9,6 @@ class VerifyEmailNotification extends VerifyEmail
 {
     /**
      * Build the mail representation of the notification.
-     * Override parent to use Bahasa Indonesia template with Sellon branding.
      */
     public function toMail(mixed $notifiable): MailMessage
     {
