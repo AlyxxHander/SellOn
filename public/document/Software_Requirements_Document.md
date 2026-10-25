@@ -251,112 +251,175 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 | Filter and Sort System | Hasil Filter kategori tidak ada | Menampilkan pesan “There is no product yet” dan menampilkan daftar kosong. |
 | Favorites System | Tombol favorit tidak ditampilkan, jika belum melakukan autentikasi | Tombol favorit tidak ditampilkan |
 
-
-
 # 6. Test Design Specification
 
 ## 6.1 Requirements
-- RQ-001: Sistem harus memungkinkan pengguna melakukan login dengan kredensial yang valid.
-- RQ-002: Sistem harus memungkinkan pengguna mendaftar dengan email unik dan melakukan verifikasi email.
-- RQ-003: Sistem harus menyediakan fungsi forgot password yang mengirimkan tautan reset ke email terdaftar.
-- RQ-004: Sistem harus memungkinkan pengguna mengelola profil termasuk mengunggah foto berukuran <2 MB.
-- RQ-005: Sistem harus memungkinkan manajemen produk termasuk CRUD produk dengan harga > 0.
-- RQ-006: Sistem harus memungkinkan komentar pada produk dengan sanitasi konten.
-- RQ-007: Sistem harus menyediakan filter dan sort produk berdasarkan kategori.
-- RQ-008: Sistem harus memungkinkan pengguna toggle on & off produk menjadi produk favorit atau tidak.
+- RQ-001: 
+Sistem harus memungkinkan login dengan kredensial yang valid.
+- RQ-002: 
+Sistem harus menolak login dengan kredensial yang salah.
+- RQ-003: 
+Sistem harus memungkinkan registrasi dengan email baru dan verifikasi berhasil.
+- RQ-004: 
+Sistem harus menolak registrasi dengan email yang sudah terdaftar.
+- RQ-005: 
+Sistem harus memungkinkan forgot password untuk email terdaftar mengirimkan tautan reset.
+- RQ-006: 
+Sistem harus menolak forgot password untuk email tidak terdaftar.
+- RQ-007: 
+Sistem harus memungkinkan update profil dengan seluruh data wajib.
+- RQ-008: 
+Sistem harus menolak update profil ketika data wajib tidak lengkap.
+- RQ-009: 
+Sistem harus memungkinkan penambahan produk dengan input data yang valid.
+- RQ-010: 
+Sistem harus memungkinkan penambahan produk dengan data yang tidak valid.
+- RQ-011:
+Sistem harus menyimpan produk dengan harga 10.000 - 1.000.000.
+- RQ-012:
+Sistem harus menolak penyimpanan produk dengan harga ≤ 10.000 atau ≥ 1.000.000.
+- RQ-013: 
+Sistem harus membatasi komentar sesuai batas panjang huruf maksimum.
+- RQ-014: 
+Sistem harus menolak komentar yang melebihi batas panjang huruf maksimum.
+- RQ-015: 
+Sistem harus menyediakan filter produk berdasarkan kategori yang ada.
+- RQ-016: 
+Sistem harus menampilkan pesan ketika filter kategori tidak ada.
+- RQ-017: 
+Sistem harus memunculkan produk favorit di My Favorite jika produk di toggle on. 
+- RQ-018: 
+Sistem harus tidak memunculkan produk favorit di My Favorite jika produk di toggle off. 
 
 
 ## 6.2 Feature Sets
 | ID | Feature Set | Objective | Priority | Traceability |
 |---|---|---|---|---|
-| FS1 | Login | Pengguna dapat masuk ke sistem | High | RQ-001 |
-| FS2 | Register | Pengguna dapat membuat akun baru | High | RQ-002 |
-| FS3 | Forgot Password | Pengguna dapat mereset password | High | RQ-003 |
-| FS4 | Profile Management | Pengguna dapat mengelola profil | Medium | RQ-004 |
-| FS5 | Product Management | Pengguna dapat mengelola produk | High | RQ-005 |
-| FS6 | Comment Management | Pengguna dapat menulis komentar | Medium | RQ-006 |
-| FS7 | Filter and Sort System | Pengguna dapat memfilter dan mengurutkan produk | Medium | RQ-007 |
-| FS8 | Favorites System | Pengguna dapat menandai produk sebagai favorit | Low | RQ-008 |
+| FS1 | Login | Pengguna dapat masuk ke sistem | High | RQ-001, RQ-002 |
+| FS2 | Register | Pengguna dapat membuat akun baru | High | RQ-003, RQ-004 |
+| FS3 | Forgot Password | Pengguna dapat mereset password | High | RQ-005, RQ-006 |
+| FS4 | Profile Management | Pengguna dapat mengelola profil | Medium | RQ-007, RQ-008 |
+| FS5 | Product Management | Pengguna dapat mengelola produk | High | RQ-009, RQ-010 |
+| FS6 | Comment Management | Pengguna dapat menulis komentar | Medium | RQ-011, RQ-012 |
+| FS7 | Filter and Sort System | Pengguna dapat memfilter dan mengurutkan produk | Medium | RQ-013, RQ-014 |
+| FS8 | Favorites System | Pengguna dapat toggle on & off produk menjadi produk favorit baru | Low | RQ-015 |
 
 ## 6.3 Test Conditions
 | ID | Feature Set | Description | Priority | Traceability |
 |---|---|---|---|---|
 | TC1 | FS1 | Login dengan kredensial valid | High | RQ-001 |
-| TC2 | FS1 | Login dengan kredensial salah | High | RQ-001 |
-| TC3 | FS2 | Register dengan email baru dan verifikasi berhasil | High | RQ-002 |
-| TC4 | FS2 | Register dengan email sudah terdaftar | High | RQ-002 |
-| TC5 | FS3 | Forgot Password dengan email terdaftar | High | RQ-003 |
-| TC6 | FS3 | Forgot Password dengan email tidak terdaftar | High | RQ-003 |
-| TC7 | FS4 | Update profil dengan seluruh data yang wajib dimasukkan | Medium | RQ-004 |
-| TC8 | FS4 | Update profil dengan tidak memasukkan salah satu data yang wajib dimasukkan | Medium | RQ-004 |
-| TC9 | FS5 | Tambah produk dengan data valid | High | RQ-005 |
-| TC10 | FS5 | Simpan produk dengan harga ≤ 0 | High | RQ-005 |
-| TC11 | FS6 | Tambah komentar sesuai batas panjang huruf maksimum | Medium | RQ-006 |
-| TC12 | FS6 | Tambah komentar melebihi batas panjang huruf maksimum | Medium | RQ-006 |
-| TC13 | FS7 | Filter produk berdasarkan kategori yang ada | Medium | RQ-007 |
-| TC14 | FS7 | Hasil Filter kategori tidak ada | Medium | RQ-007 |
-| TC15 | FS8 | Toggle on produk menjadi produk favorite | Low | RQ-008 |
-| TC16 | FS8 | Toggle off produk dari produk favorite | Low | RQ-008 |
+| TC2 | FS1 | Login dengan kredensial salah | High | RQ-002 |
+| TC3 | FS2 | Register dengan email baru dan verifikasi berhasil | High | RQ-003 |
+| TC4 | FS2 | Register dengan email sudah terdaftar | High | RQ-004 |
+| TC5 | FS3 | Forgot Password dengan email terdaftar | High | RQ-005 |
+| TC6 | FS3 | Forgot Password dengan email tidak terdaftar | High | RQ-006 |
+| TC7 | FS4 | Update profil dengan seluruh data yang wajib dimasukkan | Medium | RQ-007 |
+| TC8 | FS4 | Update profil dengan tidak memasukkan salah satu data yang wajib dimasukkan | Medium | RQ-008 |
+| TC9 | FS5 | Tambah produk dengan product photos <= 5 MB | High | RQ-009 |
+| TC10 | FS5 | Tambah produk dengan product photos > 5 MB | High | RQ-010 |
+| TC11 | FS5 | Tambah produk dengan product name 1 - 70 huruf | High | RQ-009 |
+| TC12 | FS5 | Tambah produk dengan product name < 1 huruf | High | RQ-010 |
+| TC13 | FS5 | Tambah produk dengan product name > 70 huruf | High | RQ-010 |
+| TC14 | FS5 | Tambah produk dengan memilih salah satu opsi product category | High | RQ-009 |
+| TC15 | FS5 | Tambah produk dengan tidak memilih salah satu opsi product category | High | RQ-010 |
+| TC16 | FS5 | Tambah produk dengan product stock 1 - 999 | High | RQ-009 |
+| TC17 | FS5 | Tambah produk dengan product stock < 1 | High | RQ-010 |
+| TC18 | FS5 | Tambah produk dengan product stock > 999 | High | RQ-010 |
+| TC19 | FS5 | Tambah produk dengan memilih salah satu opsi product condition, jika product category berisi opsi category dan Preloved | High | RQ-009 |
+| TC20 | FS5 | Tambah produk dengan tidak memilih salah satu opsi product condition, jika product category berisi opsi category dan Preloved | High | RQ-010 |
+| TC21 | FS5 | Tambah produk dengan product description 1 - 500 huruf | High | RQ-009 |
+| TC22 | FS5 | Tambah produk dengan product description < 1 huruf | High | RQ-010 |
+| TC23 | FS5 | Tambah produk dengan product description > 500 huruf | High | RQ-010 |
+| TC24 | FS5 | Sistem harus menyimpan produk dengan harga 10.000 - 1.000.000 | High | RQ-011 |
+| TC25 | FS5 | Tolak penyimapanan produk dengan harga ≤ 10.000 atau ≥ 1.000.000 | High | RQ-012 |
+| TC26 | FS6 | Tambah komentar sesuai batas panjang huruf maksimum | Medium | RQ-013 |
+| TC27 | FS6 | Tambah komentar melebihi batas panjang huruf maksimum | Medium | RQ-014 |
+| TC28 | FS7 | Filter produk berdasarkan kategori yang ada | Medium | RQ-015 |
+| TC29 | FS7 | Hasil Filter kategori tidak ada | Medium | RQ-016 |
+| TC30 | FS8 | Sistem harus memunculkan produk favorit di My Favorite jika produk di toggle on | Low | RQ-017 |
+| TC31 | FS8 | Sistem harus tidak memunculkan produk favorit di My Favorite, jika produk di toggle on | Low | RQ-018 |
 
 ## 6.4 Coverage Items
 | ID | Description | Related Test Condition | Priority | Traceability |
 |---|---|---|---|---|
-| CI1 | Verifikasi proses login berhasil | TC1 | High | RQ-001 |
-| CI2 | Verifikasi penolakan login dengan kredensial salah | TC2 | High | RQ-001 |
-| CI3 | Verifikasi registrasi berhasil dan verifikasi email | TC3 | High | RQ-002 |
-| CI4 | Verifikasi penolakan registrasi dengan email duplikat | TC4 | High | RQ-002 |
-| CI5 | Verifikasi proses reset password berhasil | TC5 | High | RQ-003 |
-| CI6 | Verifikasi penolakan reset password untuk email tidak terdaftar | TC6 | High | RQ-003 |
-| CI7 | Verifikasi Update profil dengan seluruh data yang wajib dimasukkan | TC7 | Medium | RQ-004 |
-| CI8 | Verifikasi update profil dengan tidak memasukkan salah satu data yang wajib dimasukkan | TC8 | Medium | RQ-004 |
-| CI9 | Verifikasi CRUD produk dengan data valid | TC9 | High | RQ-005 |
-| CI10 | Verifikasi validasi harga produk tidak boleh ≤ 0 | TC10 | High | RQ-005 |
-| CI11 | Verifikasi penambahan komentar yang bersih | TC11 | Medium | RQ-006 |
-| CI12 | Verifikasi sanitasi komentar berbahaya | TC12 | Medium | RQ-006 |
-| CI13 | Verifikasi filter produk berdasarkan kategori yang ada | TC13 | Medium | RQ-007 |
-| CI14 | Verifikasi penanganan filter kategori tidak ada | TC14 | Medium | RQ-007 |
-| CI15 | Verifikasi toggle on menjadi produk favorit baru | TC15 | Low | RQ-008 |
-| CI16 | Verifikasi toggle off dari produk favorit | TC16 | Low | RQ-008 |
+| CI1 | Verifikasi proses login | TC1, TC2 | High | RQ-001, RQ-002 |
+| CI2 | Verifikasi registrasi dan email | TC3, TC4 | High | RQ-003, RQ-004 |
+| CI3 | Verifikasi proses reset password | TC5, TC6 | High | RQ-005, RQ-006 |
+| CI4 | Verifikasi update profil dengan data yang dimasukkan | TC7, TC8 | Medium | RQ-007, RQ-008 |
+| CI5 | Verifikasi CRUD produk | TC9, TC10, TC11, TC12, TC13, TC14, TC15, TC16, TC17, TC18, TC19, TC20, TC21, TC22, TC23, TC24, TC25 | High | RQ-009, RQ-010, RQ-011, RQ-012 |
+| CI6 | Verifikasi batas panjang huruf komentar | TC26, TC27 | Medium | RQ-013, RQ-014 |
+| CI7 | Verifikasi filter produk | TC28, TC29 | Medium | RQ-015, RQ-016 |
+| CI8 | Verifikasi toggle produk favorit | TC30, TC31 | Low | RQ-017, RQ-018 |
 
 ## 6.5 Test Traceability Matrix (TTM)
 
 | Requirement | Feature Set | Test Condition | Coverage Item |
 |---|---|---|---|
-| RQ-001 | FS1 | TC1 | CI1 |
-| RQ-001 | FS1 | TC2 | CI2 |
-| RQ-002 | FS2 | TC3 | CI3 |
-| RQ-002 | FS2 | TC4 | CI4 |
-| RQ-003 | FS3 | TC5 | CI5 |
-| RQ-003 | FS3 | TC6 | CI6 |
-| RQ-004 | FS4 | TC7 | CI7 |
-| RQ-004 | FS4 | TC8 | CI8 |
-| RQ-005 | FS5 | TC9 | CI9 |
-| RQ-005 | FS5 | TC10 | CI10 |
-| RQ-006 | FS6 | TC11 | CI11 |
-| RQ-006 | FS6 | TC12 | CI12 |
-| RQ-007 | FS7 | TC13 | CI13 |
-| RQ-007 | FS7 | TC14 | CI14 |
-| RQ-008 | FS8 | TC15 | CI15 |
-| RQ-008 | FS8 | TC16 | CI16 |
+| RQ-001 | FS1 | TC1 | CI1
+| RQ-002 | FS1 | TC2 | CI1
+| RQ-003 | FS2 | TC3 | CI2
+| RQ-004 | FS2 | TC4 | CI2
+| RQ-005 | FS3 | TC5 | CI3
+| RQ-006 | FS3 | TC6 | CI3
+| RQ-007 | FS4 | TC7 | CI4
+| RQ-008 | FS4 | TC8 | CI4
+| RQ-009 | FS5 | TC9 | CI5
+| RQ-009 | FS5 | TC11 | CI5
+| RQ-009 | FS5 | TC14 | CI5
+| RQ-009 | FS5 | TC16 | CI5
+| RQ-009 | FS5 | TC19 | CI5
+| RQ-009 | FS5 | TC21 | CI5
+| RQ-010 | FS5 | TC10 | CI5
+| RQ-010 | FS5 | TC12 | CI5
+| RQ-010 | FS5 | TC13 | CI5
+| RQ-010 | FS5 | TC15 | CI5
+| RQ-010 | FS5 | TC17 | CI5
+| RQ-010 | FS5 | TC18 | CI5
+| RQ-010 | FS5 | TC20 | CI5
+| RQ-010 | FS5 | TC22 | CI5
+| RQ-010 | FS5 | TC23 | CI5
+| RQ-011 | FS5 | TC24 | CI5
+| RQ-012 | FS5 | TC25 | CI5
+| RQ-013 | FS6 | TC26 | CI6
+| RQ-014 | FS6 | TC27 | CI6
+| RQ-015 | FS7 | TC28 | CI7
+| RQ-016 | FS7 | TC29 | CI7
+| RQ-017 | FS8 | TC30 | CI8
+| RQ-018 | FS8 | TC31 | CI8
 
 ## 6.6 Test Design Technique Summary
 
 | Test Condition ID | Test Design Technique | Test Purpose |
 |---|---|---|
 | TC1 | Equivalence Partitioning (EP) | Verifikasi login berhasil dengan kredensial yang valid |
-| TC2 | Equivalence Partitioning (EP) | Verifikasi login gagal dengan kredensial yang salah |
-| TC3 | Equivalence Partitioning (EP) | Verifikasi registrasi berhasil dan verifikasi email |
-| TC4 | Equivalence Partitioning (EP) | Verifikasi penolakan registrasi dengan email duplikat |
-| TC5 | Equivalence Partitioning (EP) | Verifikasi pengiriman email reset password untuk email yang terdaftar |
-| TC6 | Equivalence Partitioning (EP) | Verifikasi penanganan reset password untuk email yang tidak terdaftar |
-| TC7 | Boundary Value Analysis (BVA) | Verifikasi pembaruan profil dengan ukuran foto yang dapat diterima |
-| TC8 | Boundary Value Analysis (BVA) | Verifikasi penolakan pembaruan profil untuk foto yang terlalu besar |
-| TC9 | Equivalence Partitioning (EP) | Verifikasi pembuatan produk dengan data yang valid |
-| TC10 | Boundary Value Analysis (BVA) | Verifikasi penolakan pembuatan produk dengan harga non-positif |
-| TC11 | Input Validation (IV) | Verifikasi penambahan komentar yang bersih |
-| TC12 | Security Testing (ST) | Verifikasi sanitasi komentar yang mengandung script berbahaya |
-| TC13 | Equivalence Partitioning (EP) | Verifikasi hasil filter produk berdasarkan kategori yang ada |
-| TC14 | Equivalence Partitioning (EP) | Verifikasi penanganan filter kategori tidak ada |
-| TC15 | Equivalence Partitioning (EP) | Verifikasi penambahan produk ke favorit yang belum ada |
-| TC16 | Equivalence Partitioning (EP) | Verifikasi penolakan duplikasi favorit | ada |
-| TC16 | Negative Path Testing | Verifikasi penolakan duplikasi favorit |
+| TC2 | Equivalence Partitioning (EP) | Verifikasi penolakan login dengan kredensial yang salah |
+| TC3 | Equivalence Partitioning (EP) | Verifikasi registrasi berhasil dan email verifikasi terkirim |
+| TC4 | Equivalence Partitioning (EP) | Verifikasi penolakan registrasi dengan email yang sudah terdaftar |
+| TC5 | Equivalence Partitioning (EP) | Verifikasi pengiriman tautan reset password untuk email yang terdaftar |
+| TC6 | Equivalence Partitioning (EP) | Verifikasi penolakan reset password untuk email yang tidak terdaftar |
+| TC7 | Equivalence Partitioning (EP) | Verifikasi pembaruan profil berhasil ketika seluruh data wajib diisi |
+| TC8 | Equivalence Partitioning (EP) | Verifikasi penolakan pembaruan profil ketika ada data wajib yang tidak dimasukkan |
+| TC9 | Boundary Value Analysis (BVA) | Verifikasi penambahan produk dengan foto produk <= 5 MB |
+| TC10 | Boundary Value Analysis (BVA) | Verifikasi penolakan penambahan produk dengan foto produk > 5 MB |
+| TC11 | Boundary Value Analysis (BVA) | Verifikasi nama produk dengan product name > 1 huruf dan <= 70 huruf |
+| TC12 | Boundary Value Analysis (BVA) | Verifikasi penolakan penambahan produk dengan product name < 1 huruf |
+| TC13 | Boundary Value Analysis (BVA) | Verifikasi penolakan penambahan produk dengan product name > 70 huruf |
+| TC14 | Equivalence Partitioning (EP) | Verifikasi penambahan produk dengan memilih salah satu opsi product category |
+| TC15 | Equivalence Partitioning (EP) | Verifikasi penambahan produk dengan tidak memilih salah satu opsi product category |
+| TC16 | Equivalence Partitioning (EP) | Verifikasi penambahan produk dengan product stock >= 1 dan <= 999 |
+| TC17 | Equivalence Partitioning (EP) | Verifikasi penambahan produk dengan product stock < 1 |
+| TC18 | Equivalence Partitioning (EP) | Verifikasi penambahan produk dengan product stock > 999 |
+| TC19 | Equivalence Partitioning (EP) | Verifikasi penambahan produk dengan memilih salah satu opsi product condition, jika product category berisi opsi category dan Preloved |
+| TC20 | Equivalence Partitioning (EP) | Verifikasi penambahan produk dengan tidak memilih salah satu opsi product condition, jika product category berisi opsi category dan Preloved |
+| TC21 | Equivalence Partitioning (EP) | Verifikasi penambahan produk dengan product description >= 1 huruf dan <= 500 huruf |
+| TC22 | Equivalence Partitioning (EP) | Verifikasi penambahan produk dengan product description < 1 huruf |
+| TC23 | Equivalence Partitioning (EP) | Verifikasi penambahan produk dengan product description > 500 huruf |
+| TC24 | Boundary Value Analysis (BVA) | Verifikasi penyimpanan produk dengan harga dalam batas valid (10.000 - 1.000.000) |
+| TC25 | Boundary Value Analysis (BVA) | Verifikasi penolakan penyimpanan produk dengan harga di luar batas (≤ 10.000 atau ≥ 1.000.000) |
+| TC26 | Boundary Value Analysis (BVA) | Verifikasi komentar diterima pada batas panjang karakter maksimum |
+| TC27 | Boundary Value Analysis (BVA) | Verifikasi penolakan komentar yang melebihi batas panjang karakter maksimum |
+| TC28 | Equivalence Partitioning (EP) | Verifikasi filter produk berhasil menampilkan data berdasarkan kategori yang ada |
+| TC29 | Equivalence Partitioning (EP) | Verifikasi penanganan filter kategori tidak ada dengan menampilkan pesan kosong |
+| TC30 | Equivalence Partitioning (EP) | Verifikasi toggle on produk favorit muncul di My Favorite |
+| TC31 | Equivalence Partitioning (EP) | Verifikasi toggle off produk favorit tidak muncul di My Favorite |
+

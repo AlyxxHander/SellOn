@@ -24,7 +24,7 @@
               type="file" 
               name="image_urls[]" 
               class="hidden file-input" 
-              accept="image/png, image/jpeg" 
+              accept="image/png, image/jpeg, image/jpg" 
               data-box="1"
             >
             <span class="text-3xl text-slate-300 font-light">+</span>
@@ -36,7 +36,7 @@
               type="file" 
               name="image_urls[]" 
               class="hidden file-input" 
-              accept="image/png, image/jpeg" 
+              accept="image/png, image/jpeg, image/jpg" 
               data-box="2"
             >
             <span class="text-3xl text-slate-300 font-light">+</span>
@@ -48,7 +48,7 @@
               type="file" 
               name="image_urls[]" 
               class="hidden file-input" 
-              accept="image/png, image/jpeg" 
+              accept="image/png, image/jpeg, image/jpg" 
               data-box="3"
             >
             <span class="text-3xl text-slate-300 font-light">+</span>
@@ -60,7 +60,7 @@
               type="file" 
               name="image_urls[]" 
               class="hidden file-input" 
-              accept="image/png, image/jpeg" 
+              accept="image/png, image/jpeg, image/jpg" 
               data-box="4"
             >
             <span class="text-3xl text-slate-300 font-light">+</span>
@@ -72,7 +72,7 @@
               type="file" 
               name="image_urls[]" 
               class="hidden file-input" 
-              accept="image/png, image/jpeg" 
+              accept="image/png, image/jpeg, image/jpg" 
               data-box="5"
             >
             <span class="text-3xl text-slate-300 font-light">+</span>
@@ -92,6 +92,7 @@
           type="text" 
           name="name" 
           id="name" 
+          maxlength="70"
           class="input-field" 
           placeholder="Contoh: Buku Kalkulus Purcell Edisi 9"
           required>
@@ -133,7 +134,6 @@
               placeholder="Rp. 10.000 - Rp. 1.000.000" 
               min="10000" 
               max="1000000"
-              step="10000"
               required>
           </div>
           <span class="text-xs text-red-500 hidden mt-1 err-msg">Harga produk harus diisi</span>

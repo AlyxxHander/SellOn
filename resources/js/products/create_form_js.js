@@ -128,13 +128,15 @@ $(document).ready(function () {
 
     // Final Eksekusi
     if (isValid) {
-      // Di aplikasi nyata, kumpulkan data di sini lewat FormData/AJAX
-      triggerToast('toast_success', 'Product has been successfully saved!');
+      // Nonaktifkan file input yang kosong agar browser tidak mengirimkannya ke server
+      $('.file-input').each(function () {
+        if ($(this).val() === '') {
+          $(this).prop('disabled', true);
+        }
+      });
 
-      // Simulasi redirect / reset
-      setTimeout(() => {
-        e.target.submit();
-      }, 1000);
+      // Submit form langsung ke backend tanpa toast tiruan
+      e.target.submit();
     } else {
       triggerToast('toast_error', 'Please complete the data marked in red.');
     }

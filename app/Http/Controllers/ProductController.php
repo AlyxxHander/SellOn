@@ -84,44 +84,69 @@ class ProductController extends Controller
       return view('users.show_my-products', compact('products', 'categoryCounts'));
   }
 
-  // Add new Product based on the User added Product when the Product is being submitted
+    // Add new Product based on the User added Product when the Product is being submitted
   public function store(Request $request) {
-    $request->merge(['user_id' => Auth::id()]);
+    // Check if the uploaded file is valid
+    if ($request->hasFile('image_urls')) {
+      $validFiles = array_values(array_filter($request->file('image_urls'), function ($file) {
+        return $file && $file->isValid();
+      }));
+      $request->files->set('image_urls', $validFiles);
+    }
 
+    // Add Product data to the database
+    $request->merge([
+      'user_id' => Auth::id(),
+      'condition' => $request->condition ?? '-',
+    ]);
+
+    // Validate the request
     $validation = $request->validate([
       'name' => ['required', 'string', 'max:255'],
       'description' => ['required', 'string', 'max:500'],
       'price' => ['required', 'numeric', 'min:10000', 'max:1000000'],
-      'stock' => ['required', 'numeric', 'min:1', 'max:999'],
+      'stock' => ['nullable', 'required_unless:category,Service', 'numeric', 'min:1', 'max:999'],
       'category' => ['required', 'string'],
-      'condition' => ['required', 'string'],
-      'image_urls' => ['required', 'array', 'min:1', 'max:6'],
+      'condition' => ['nullable', 'string', 'required_if:category,Preloved'],
+      'image_urls' => ['required', 'array', 'min:1', 'max:5'],
       'image_urls.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:5120'],
       'user_id' => ['required', 'exists:users,id'],
     ]);
 
-    $validation['condition'] = $validation['condition'] ?? '-';
-    // For 'Service' category, stock is not applicable — set to null explicitly
+    // Check whether the category is 'Service', then set stock to null
     if ($validation['category'] === 'Service') {
       $validation['stock'] = null;
     }
 
-    if ($request->hasFile('image_urls') && count($request->file('image_urls')) > 0) {
-      $files = $request->file('image_urls');
-      $validation['image_url'] = $files[0]->store('products', 'public');
-    }
+    // Make a new product (without image_url first)
+    $productData = collect($validation)->except('image_urls')->toArray();
+    $product = Product::create($productData);
 
-    $product = Product::create($validation);
+    // Store the image file to storage and create a product_images relationship
     if ($request->hasFile('image_urls')) {
-      foreach($request->file('image_urls') as $file) {
-         $path = $file->store('products', 'public');
-         $product->images()->create(['image_url' => $path]);
+      $firstImagePath = null;
+
+      foreach ($request->file('image_urls') as $index => $file) {
+        $path = $file->store('products', 'public');
+        $product->images()->create(['image_url' => $path]);
+
+        if ($index === 0) {
+          $firstImagePath = $path;
+        }
+      }
+
+      // Update main product cover image with the first image
+      if ($firstImagePath) {
+        $product->update(['image_url' => $firstImagePath]);
       }
     }
 
+    // Redirect to the product index page with a success toast message
     return redirect()
-      ->route('product.index', ['view_type' => 'home']);
+      ->route('product.index', ['view_type' => 'home'])
+      ->with('toast_success', 'Product has been successfully saved!');
   }
+
 
   // Show the data to User in the detail form
    public function show($id) {
@@ -162,7 +187,7 @@ class ProductController extends Controller
       'stock' => ['required', 'numeric', 'min:0'],
       'condition' => ['required', 'string'],
       'new_image_urls' => ['nullable', 'array', 'max:5'],
-      'new_image_urls.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:5120'],
+      'new_image_urls.*' => ['image', 'mimes:jpeg,png,jpg', 'max:5120'],
       'deleted_images' => ['nullable', 'array'],
       'deleted_images.*' => ['exists:product_images,id'],
     ]);
@@ -215,20 +240,31 @@ class ProductController extends Controller
       );
   }
 
-  // Delete the Product data based on the User deleted Product when the Product is being submitted
-  public function destroy($id) {
-    $product = Product::findOrFail($id);
-
-    if ($product->image) {
-      Storage::disk('public')->delete('products/' . $product->image);
+  // Delete a product together with all its stored images
+  public function destroy($id)
+  {
+    // Get the product with all its images
+    $product = Product::with('images')->findOrFail($id);
+    // Delete main image that is stored in the image_url column (if any)
+    if ($product->image_url) {
+      // image_url contains relative path on the public disk, for example: "products/abcd.jpg"
+      Storage::disk('public')->delete($product->image_url);
     }
-    $product->delete();
 
+    // Delete all images that are stored in the product_images table
+    foreach ($product->images as $image) {
+        if ($image->image_url) {
+            Storage::disk('public')->delete($image->image_url);
+        }
+        // delete record table product_images
+        $image->delete();
+    }
+    // Delete the product itself
+    $product->delete();
+    // Redirect with success toast
     return redirect()
-      ->route('users.my-products')
-      ->with(
-        'toast_success', 
-        'Product deleted successfully!'
-      );
+        ->route('users.my-products')
+        ->with('toast_success', 'Product deleted successfully!');
   }
+
 }

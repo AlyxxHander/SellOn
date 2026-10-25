@@ -40,7 +40,7 @@ $product = Variable about the product being edited
             type="file" 
             id="input-file-cursor"
             name="new_image_urls[]" 
-            accept="image/png, image/jpeg" 
+            accept="image/png, image/jpeg, image/jpg" 
             class="dynamic-file-input"
           >
         </div>
@@ -60,6 +60,7 @@ $product = Variable about the product being edited
           id="name"
           name="name" 
           class="input-field" 
+          maxlength="70"
           placeholder="Product Name"
           value="{{ old('name', $product->name) }}" 
           required
@@ -118,7 +119,6 @@ $product = Variable about the product being edited
               placeholder="Rp. 10.000 - Rp. 1.000.000" 
               min="10000"
               max="1000000"
-              step="10000"
               value="{{ old('price', $product->price) }}" 
               required
             >
@@ -217,6 +217,7 @@ $product = Variable about the product being edited
           name="description" 
           class="input-field resize-none"
           placeholder="Describe the product in detail, specifications, or any flaws if any..." maxlength="500"
+          maxlength="500"
           required
         >{{ old('description', $product->description) }}</textarea>
         <span class="text-xs text-red-500 hidden mt-1 err-msg">Deskripsi Produk harus diisi.</span>
