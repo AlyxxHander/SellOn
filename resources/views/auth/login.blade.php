@@ -11,7 +11,7 @@
       <p class="text-brand-muted mb-2 text-sm">Please login using your NIM and password.</p>
     </div>
     <div class="w-full md:w-3/5 p-8 md:p-10 rounded-b-2xl md:rounded-bl-none md:rounded-r-2xl border-stone-300 border-2 border-t-0 md:border-t-2 md:border-l-0 bg-stone-100">
-      <form id="form-login" action="{{ route('login_post') }}" method="POST" class="space-y-5">
+      <form id="form-login" action="{{ route('login.post') }}" method="POST" class="space-y-5">
         @csrf
         <div id="email-form">
           <label class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>

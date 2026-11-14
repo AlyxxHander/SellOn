@@ -71,7 +71,7 @@ $(document).ready(function () {
 
   // Word Counter
   $(document).on('input', '#comment-text', function () {
-    const max = 150;
+    const max = 250;
     const len = this.value.length;
 
     if (len > max) this.value = this.value.substring(0, max);

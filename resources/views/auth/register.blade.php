@@ -12,7 +12,7 @@
     </div>
 
     <div class="w-full md:w-2/3 p-8 md:p-10 rounded-b-2xl md:rounded-bl-none md:rounded-r-2xl border-stone-300 border-2 border-t-0 md:border-t-2 md:border-l-0 bg-stone-100">
-      <form id="form-register" action="{{ route('register_post') }}" method="POST">
+      <form id="form-register" action="{{ route('register.post') }}" method="POST">
         @csrf
         <div class="mb-4">
           <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
@@ -111,7 +111,7 @@
 
       {{-- Info verifikasi email --}}
       <div class="flex items-start gap-x-2 bg-teal-50 border border-teal-200 rounded-lg px-4 py-3 mt-4">
-        <i class="fa-solid fa-envelope-circle-check text-brand-accent text-sm mt-0.5 flex-shrink-0"></i>
+        <i class="fa-solid fa-envelope-circle-check text-brand-accent text-sm mt-0.5 shrink-0"></i>
         <p class="text-xs text-teal-700">
           Setelah mendaftar, 
           <strong>link verifikasi</strong> 

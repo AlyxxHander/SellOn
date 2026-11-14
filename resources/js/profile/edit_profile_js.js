@@ -69,8 +69,8 @@ const rules = [
       },
       {
         // Cek format No WA 08xxxxxxxxx
-        condition: val => !/^08\d{8,12}$/.test(val),
-        message: 'Nomor WhatsApp harus diawali 08 dan berisi angka.'
+        condition: val => !/^08\d{10}$/.test(val),
+        message: 'Nomor WhatsApp harus diawali 08 dan karakter berjumlah tepat 12.'
       }
     ]
   },

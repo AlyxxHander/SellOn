@@ -205,7 +205,8 @@ class UserController extends Controller
         ->route('verification.notice')
         ->with(
             'toast_info', 
-            'Email Anda telah diubah. Silakan verifikasi email baru Anda (' . $validation['email'] . ') untuk melanjutkan.'
+            'Email Anda telah diubah. Silakan verifikasi email baru Anda 
+            (' . $validation['email'] . ') untuk melanjutkan.'
           );
     }
 

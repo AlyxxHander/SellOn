@@ -47,7 +47,7 @@
             id="comment-text" 
             name="comment" 
             rows="8"
-            maxlength="50"
+            maxlength="250"
             placeholder="Tuliskan ulasan atau pertanyaan Anda mengenai produk ini..."
             class="w-full p-3 resize-none rounded-xl border border-slate-300 text-sm focus:border-brand-accent focus:ring-1 focus:ring-brand-accent outline-none bg-white transition"
             required></textarea>
@@ -72,7 +72,7 @@
   @endauth
 
   <!-- Comments List -->
-  <div class="divide-y divide-slate-100 mt-6" id="comments-list">
+  <div id="comments-list" class="divide-y divide-slate-100 mt-6">
     @forelse($product->comments as $comment)
       <div class="py-5 gap-4 flex flex-col sm:flex-row justify-between items-start">
         <div class="gap-3.5 flex items-start grow">
@@ -101,7 +101,9 @@
             </div>
 
             <!-- Comment Text -->
-            <p class="pt-1 text-sm text-slate-700 leading-relaxed whitespace-pre-line">{{ $comment->comment }}</p>
+            <p class="pt-2 text-sm text-slate-700 wrap-break-word break-all">
+              {{ $comment->comment }}
+            </p>
           </div>
         </div>
 

@@ -63,7 +63,7 @@ const rules = [
         message: 'Nomor WhatsApp tidak boleh kosong.'
       },
       {
-        condition: val => !/^08\d{8,12}$/.test(val),
+        condition: val => !/^08\d{10}$/.test(val),
         message: 'WhatsApp harus diawali 08 dan berisi angka.'
       }
     ]

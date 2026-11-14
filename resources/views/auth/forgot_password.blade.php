@@ -21,21 +21,25 @@
       </div>
     @endif
 
-    <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
+    <form id="forgot_password_form" method="POST" action="{{ route('password.email') }}" class="space-y-4">
       @csrf
       <div>
         <div id="email-form">
           <label class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
-          <input id="email" name="email" type="email" 
+          <input 
+            id="email" 
+            name="email" 
+            type="email" 
             class="input-field" 
             value="{{ old('email') }}" 
             placeholder="email@webmail.umm.ac.id" 
             required 
             autocomplete="email"
           >
-          @error('email')
+          <span id="err-login-email" class="text-xs text-red-500 hidden mt-1"></span>
+          {{-- @error('email')
             <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-          @enderror
+          @enderror --}}
         </div>  
       </div>
       <button type="submit" class="w-full btn btn-primary">Verifikasi Email</button>
@@ -46,3 +50,5 @@
     </div>
 </main>
 @endsection
+
+@vite('resources/js/auth/forgot_password_js.js')

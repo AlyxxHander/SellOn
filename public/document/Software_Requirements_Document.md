@@ -255,13 +255,13 @@ Selain pemenuhan kebutuhan fungsional, platform wajib memenuhi standar kualitas 
 
 ## 6.1 Requirements
 - RQ-001: 
-Sistem harus memungkinkan login dengan kredensial yang valid.
+Sistem harus memungkinkan login jika input valid.
 - RQ-002: 
-Sistem harus menolak login dengan kredensial yang salah.
+Sistem harus menolak login jika input tidak valid.
 - RQ-003: 
-Sistem harus memungkinkan registrasi dengan email baru dan verifikasi berhasil.
+Sistem harus memungkinkan registrasi jika input valid.
 - RQ-004: 
-Sistem harus menolak registrasi dengan email yang sudah terdaftar.
+Sistem harus menolak registrasi jika input tidak valid.
 - RQ-005: 
 Sistem harus memungkinkan forgot password untuk email terdaftar mengirimkan tautan reset.
 - RQ-006: 
@@ -279,7 +279,7 @@ Sistem harus menyimpan produk dengan harga 10.000 - 1.000.000.
 - RQ-012:
 Sistem harus menolak penyimpanan produk dengan harga ≤ 10.000 atau ≥ 1.000.000.
 - RQ-013: 
-Sistem harus membatasi komentar sesuai batas panjang huruf maksimum.
+Sistem harus membatasi komentar sesuai batas panjang huruf maksimum dan rating diantara 1-5.
 - RQ-014: 
 Sistem harus menolak komentar yang melebihi batas panjang huruf maksimum.
 - RQ-015: 
@@ -287,9 +287,9 @@ Sistem harus menyediakan filter produk berdasarkan kategori yang ada.
 - RQ-016: 
 Sistem harus menampilkan pesan ketika filter kategori tidak ada.
 - RQ-017: 
-Sistem harus memunculkan produk favorit di My Favorite jika produk di toggle on. 
+Sistem harus memunculkan produk favorit di My Favorite, jika produk di toggle on. 
 - RQ-018: 
-Sistem harus tidak memunculkan produk favorit di My Favorite jika produk di toggle off. 
+Sistem harus tidak memunculkan duplikasi produk favorit di My Favorite, jika produk sudah di toggle on. 
 
 
 ## 6.2 Feature Sets
@@ -302,7 +302,7 @@ Sistem harus tidak memunculkan produk favorit di My Favorite jika produk di togg
 | FS5 | Product Management | Pengguna dapat mengelola produk | High | RQ-009, RQ-010 |
 | FS6 | Comment Management | Pengguna dapat menulis komentar | Medium | RQ-011, RQ-012 |
 | FS7 | Filter and Sort System | Pengguna dapat memfilter dan mengurutkan produk | Medium | RQ-013, RQ-014 |
-| FS8 | Favorites System | Pengguna dapat toggle on & off produk menjadi produk favorit baru | Low | RQ-015 |
+| FS8 | Favorites System | Pengguna dapat toggle on & off produk menjadi produk favorit | Low | RQ-015 |
 
 ## 6.3 Test Conditions
 | ID | Feature Set | Description | Priority | Traceability |
@@ -310,7 +310,7 @@ Sistem harus tidak memunculkan produk favorit di My Favorite jika produk di togg
 | TC1 | FS1 | Login dengan kredensial valid | High | RQ-001 |
 | TC2 | FS1 | Login dengan kredensial salah | High | RQ-002 |
 | TC3 | FS2 | Register dengan email baru dan verifikasi berhasil | High | RQ-003 |
-| TC4 | FS2 | Register dengan email sudah terdaftar | High | RQ-004 |
+| TC4 | FS2 | Register dengan email sudah terdaftar dan verifikasi gagal | High | RQ-004 |
 | TC5 | FS3 | Forgot Password dengan email terdaftar | High | RQ-005 |
 | TC6 | FS3 | Forgot Password dengan email tidak terdaftar | High | RQ-006 |
 | TC7 | FS4 | Update profil dengan seluruh data yang wajib dimasukkan | Medium | RQ-007 |
@@ -335,9 +335,9 @@ Sistem harus tidak memunculkan produk favorit di My Favorite jika produk di togg
 | TC26 | FS6 | Tambah komentar sesuai batas panjang huruf maksimum | Medium | RQ-013 |
 | TC27 | FS6 | Tambah komentar melebihi batas panjang huruf maksimum | Medium | RQ-014 |
 | TC28 | FS7 | Filter produk berdasarkan kategori yang ada | Medium | RQ-015 |
-| TC29 | FS7 | Hasil Filter kategori tidak ada | Medium | RQ-016 |
-| TC30 | FS8 | Sistem harus memunculkan produk favorit di My Favorite jika produk di toggle on | Low | RQ-017 |
-| TC31 | FS8 | Sistem harus tidak memunculkan produk favorit di My Favorite, jika produk di toggle on | Low | RQ-018 |
+| TC29 | FS7 | Filter produk berdasarkan kategori tidak ada | Medium | RQ-016 |
+| TC30 | FS8 | Sistem harus memunculkan produk favorit di My Favorite, jika produk di toggle on | Low | RQ-017 |
+| TC31 | FS8 | Sistem harus tidak memunculkan duplikasi produk favorit di My Favorite, jika produk sudah di toggle on | Low | RQ-018 |
 
 ## 6.4 Coverage Items
 | ID | Description | Related Test Condition | Priority | Traceability |
@@ -421,5 +421,5 @@ Sistem harus tidak memunculkan produk favorit di My Favorite jika produk di togg
 | TC28 | Equivalence Partitioning (EP) | Verifikasi filter produk berhasil menampilkan data berdasarkan kategori yang ada |
 | TC29 | Equivalence Partitioning (EP) | Verifikasi penanganan filter kategori tidak ada dengan menampilkan pesan kosong |
 | TC30 | Equivalence Partitioning (EP) | Verifikasi toggle on produk favorit muncul di My Favorite |
-| TC31 | Equivalence Partitioning (EP) | Verifikasi toggle off produk favorit tidak muncul di My Favorite |
+| TC31 | Equivalence Partitioning (EP) | Verifikasi toggle on produk favorit tidak muncul sebagai duplikasi di My Favorite, jika produk sudah di toggle on |
 

@@ -22,8 +22,8 @@ Route::get('/register', function() {
 // [ POST ] logout
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 // [ POST ] login
-Route::post('/login_post', [UserController::class, 'login'])->name('login_post');
-Route::post('/register_post', [UserController::class, 'register'])->name('register_post');
+Route::post('/login/post', [UserController::class, 'login'])->name('login.post');
+Route::post('/register/post', [UserController::class, 'register'])->name('register.post');
 
 
 
@@ -101,8 +101,7 @@ Route::get('/users/my-products', [ProductController::class, 'myProducts'])->name
 
 
 
-// >> FAVORITE ROUTES
-
+// ---------------------------------|| FAVORITE ROUTES ||---------------------------------
 // [ POST ] toggle favorite (PROTECTED: login + email verified)
 Route::post('/favorite/toggle/{product_id}', [FavoriteController::class, 'toggle'])->name('favorite.toggle')->whereNumber('product_id')->middleware(['auth', 'verified']);
 // [ GET ] my favorites (PROTECTED: login + email verified)
@@ -112,13 +111,13 @@ Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('favorit
 
 // ---------------------------------|| COMMENT / REVIEW ROUTES ||---------------------------------
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Menyimpan ulasan & rating baru
-    Route::post('/products/{product_id}/comments', [ProductCommentController::class, 'store'])
-        ->name('product.comments.store')
-        ->whereNumber('product_id');
+  // Menyimpan ulasan & rating baru
+  Route::post('/products/{product_id}/comments', [ProductCommentController::class, 'store'])
+    ->name('product.comments.store')
+    ->whereNumber('product_id');
 
-    // Menghapus ulasan (dapat dilakukan oleh penjual produk atau pemilik ulasan)
-    Route::delete('/comments/{id}', [ProductCommentController::class, 'destroy'])
-        ->name('product.comments.destroy')
-        ->whereNumber('id');
+  // Menghapus ulasan (dapat dilakukan oleh penjual produk atau pemilik ulasan)
+  Route::delete('/comments/{id}', [ProductCommentController::class, 'destroy'])
+    ->name('product.comments.destroy')
+    ->whereNumber('id');
 });
